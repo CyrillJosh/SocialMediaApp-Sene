@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Microsoft.Maui.Storage;
 using SocialMediaApp_Sene;
 using Socialmedia.MVVM.View;
+using SocialMediaApp_Sene.MVVM.Models;
 
 namespace Socialmedia.MVVM.ViewModel
 {
@@ -14,30 +15,9 @@ namespace Socialmedia.MVVM.ViewModel
     {
         //Properties
         [ObservableProperty]
-        private string fullName;
+        private User user = new User();
 
-        [ObservableProperty]
-        private string email;
-
-        private string pnum;
-        public string Pnum
-        {
-            get => pnum;
-            set
-            {
-                // Allow only numbers and limit to 11 digits
-                if (value.All(char.IsDigit) && value.Length <= 11)
-                {
-                    SetProperty(ref pnum, value);
-                }
-            }
-        }
-
-        [ObservableProperty]
-        private string birthdate;
-
-        [ObservableProperty]
-        private string password;
+        public DateTime datenow { get; } = DateTime.Now;
 
         [ObservableProperty]
         private string confirmPassword;
@@ -72,53 +52,54 @@ namespace Socialmedia.MVVM.ViewModel
         private async void Registers()
         {
             //Empty
-            if (string.IsNullOrWhiteSpace(FullName) ||
-                string.IsNullOrWhiteSpace(Email) ||
-                string.IsNullOrWhiteSpace(Pnum) ||
-                string.IsNullOrWhiteSpace(Password) ||
+            if (string.IsNullOrWhiteSpace(User.Firstname) ||
+                string.IsNullOrWhiteSpace(User.Lastname) ||
+                string.IsNullOrWhiteSpace(User.Email) ||
+                string.IsNullOrWhiteSpace(User.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(User.Password) ||
                 string.IsNullOrWhiteSpace(ConfirmPassword))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Please fill all fields.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Please fill all fields.", "OK");
                 return;
             }
 
             //Phone number length
-            if (Pnum.Length != 11)
+            if (User.PhoneNumber.All(char.IsDigit) && User.PhoneNumber.Length <= 11)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Phone number must be exactly 11 digits.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Phone number must be exactly 11 digits.", "OK");
                 return;
             }   
 
             //Email format
-            if (!Email.EndsWith("@gmail.com"))
+            if (!User.Email.EndsWith("@gmail.com"))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Email must end with '@gmail.com'.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Email must end with '@gmail.com'.", "OK");
                 return;
             }
 
             //Password format
-            if (Password.Length < 8 || !Password.Any(char.IsDigit) || !Password.Any(ch => !char.IsLetterOrDigit(ch)))
+            if (User.Password.Length < 8 || !User.Password.Any(char.IsDigit) || !User.Password.Any(ch => !char.IsLetterOrDigit(ch)))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Password must be at least 8 characters long, contain a number, and a special character.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Password must be at least 8 characters long, contain a number, and a special character.", "OK");
                 return;
             }
 
             //Confirm password
-            if (Password != ConfirmPassword)
+            if (User.Password != ConfirmPassword)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Passwords do not match.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Passwords do not match.", "OK");
                 return;
             }
 
             // Save user details for login validation - change to mock api
-            Preferences.Set("RegisteredEmail", Email);
-            Preferences.Set("RegisteredPassword", Password);
-            Preferences.Set("RegisteredPhone", Pnum);
-            Preferences.Set("RegisteredBirthdate", Birthdate);
+            Preferences.Set("RegisteredEmail", User.Email);
+            Preferences.Set("RegisteredPassword", User.Password);
+            Preferences.Set("RegisteredPhone", User.PhoneNumber);
+            Preferences.Set("RegisteredBirthdate", User.BirthDate);
             Preferences.Set("IsRegistered", true);
 
-            await App.Current.MainPage.DisplayAlert("Success", "Registration complete!", "OK");
-            await App.Current.MainPage.Navigation.PopAsync(); // Navigate back to Login
+            await Application.Current.MainPage.DisplayAlert("Success", "Registration complete!", "OK");
+            await Application.Current.MainPage.Navigation.PopAsync(); // Navigate back to Login
         }
 
 

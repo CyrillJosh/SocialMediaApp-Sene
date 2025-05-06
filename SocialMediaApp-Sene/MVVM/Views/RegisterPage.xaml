@@ -13,7 +13,7 @@
 
     <Grid>
         <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
-
+            
             <!-- App Logo -->
             <Image 
                 Source="senelogowhite.png" 
@@ -21,7 +21,7 @@
                 WidthRequest="300"
                 HorizontalOptions="Center" />  
 
-            <!-- Name Entry -->
+            <!-- FirstName Entry -->
             <Border 
                 StrokeThickness="1" 
                 Stroke="Black" 
@@ -35,9 +35,65 @@
 
                 <Entry 
                     Placeholder="Full Name" 
-                    Text="{Binding FullName}" 
+                    Text="{Binding User.Firstname}" 
                     BackgroundColor="Transparent" 
                     TextColor="Black"/>
+            </Border>
+
+            <!-- LastName Entry -->
+            <Border 
+                 StrokeThickness="1" 
+                 Stroke="Black" 
+                 BackgroundColor="White"
+                 Padding="5" 
+                 HeightRequest="50">    
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Entry 
+                 Placeholder="Full Name" 
+                 Text="{Binding User.Lastname}" 
+                 BackgroundColor="Transparent" 
+                 TextColor="Black"/>
+            </Border>
+            
+            <!--BirthDate Entry-->
+            <Border 
+                 StrokeThickness="1" 
+                 Stroke="Black" 
+                 BackgroundColor="White" 
+                 Padding="5" 
+                 HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <HorizontalStackLayout>
+                    <DatePicker
+                     BackgroundColor="Transparent"
+                     MaximumDate="{Binding datenow}"/>
+                </HorizontalStackLayout>
+            </Border>
+            
+            <!-- PhoneNumber Entry -->
+            <Border 
+                 StrokeThickness="1" 
+                 Stroke="Black" 
+                 BackgroundColor="White"
+                 Padding="5" 
+                 HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Entry 
+                 Placeholder="Full Name" 
+                 Text="{Binding User.Gender}" 
+                 BackgroundColor="Transparent" 
+                 TextColor="Black"/>
             </Border>
 
             <!-- Email Entry -->
@@ -54,7 +110,7 @@
 
                 <Entry 
                      Placeholder="Email" 
-                     Text="{Binding Email}" 
+                     Text="{Binding User.Email}" 
                      Keyboard="Email"
                      BackgroundColor="White" 
                      TextColor="Black"/>
@@ -73,15 +129,15 @@
                 </Border.StrokeShape>
 
                 <Entry Placeholder="Phone Number" 
-                   Text="{Binding Pnum, Mode=TwoWay}" 
+                   Text="{Binding User.PhoneNumber, Mode=TwoWay}" 
                    Keyboard="Telephone"
                    MaxLength="11"
                    BackgroundColor="Transparent"
                    TextColor="Black"/>
 
             </Border>
-
-
+            
+           
             <!-- Password Entry -->
             <Border 
                 StrokeThickness="1" 
@@ -98,19 +154,19 @@
                     <!-- Password Entry -->
                     <Entry 
                          Placeholder="Password" 
-                         Text="{Binding Password}" 
+                         Text="{Binding User.Password}" 
                          IsPassword="{Binding IsPasswordHidden}" 
                          BackgroundColor="Transparent" 
                          TextColor="Black"
                          VerticalOptions="Center"
-                         Grid.Column="0"
-                         Margin="10,0,40,0" />
+                         Grid.Column="0"/>
 
                     <!-- hide show pass -->
                     <Label 
                         Text="{Binding EyeIcon}" 
                         FontSize="15"
                         Padding="5"
+                        BackgroundColor="White"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
                         TextColor="Black">
@@ -143,14 +199,14 @@
                          BackgroundColor="Transparent" 
                          TextColor="Black"
                          VerticalOptions="Center"
-                         Grid.Column="0"
-                         Margin="10,0,40,0" />
+                         Grid.Column="0" />
 
                     <!-- Eye Icon for Toggle -->
                     <Label 
                         Text="{Binding ConfirmEyeIcon}" 
                         FontSize="15"
                         Padding="5"
+                        BackgroundColor="White"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
                         TextColor="Black">

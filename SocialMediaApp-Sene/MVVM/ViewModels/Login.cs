@@ -26,9 +26,6 @@ namespace Socialmedia.MVVM.ViewModel
         [ObservableProperty]
         private string errorMessage;
 
-        [ObservableProperty]
-        private bool hasError;
-
         //Commands
         public ICommand LoginCommand { get; }
         public ICommand TogglePasswordCommand { get; }
@@ -51,14 +48,14 @@ namespace Socialmedia.MVVM.ViewModel
             //Empty
             if (string.IsNullOrWhiteSpace(User.Email) || string.IsNullOrWhiteSpace(User.Password))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Please enter both email and password.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Please enter both email and password.", "OK");
                 return;
             }
 
             //Gmail format
             if (!User.Email.EndsWith("@gmail.com"))
             {
-                await App.Current.MainPage.DisplayAlert("Invalid Email", "Email must end with '@gmail.com'.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Invalid Email", "Email must end with '@gmail.com'.", "OK");
                 return;
             }
 
@@ -74,31 +71,19 @@ namespace Socialmedia.MVVM.ViewModel
                 //If exist -- Needs Update -- Check if user with username and password exist in the users list
                 if (users.Any(x=> x.Email == User.Email && x.Password == User.Password))
                 {
-                    await App.Current.MainPage.DisplayAlert("Success", "Login successful!", "OK");
-                    HasError = false;
+                    await Application.Current.MainPage.DisplayAlert("Success", "Login successful!", "OK");
 
                     Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
                 }
-
-                //Exist but wrong pass or email - change to mock api
-                else if (false)
-                {
-                    await App.Current.MainPage.DisplayAlert("Invalid", "Wrong Email and Password!", "OK");
-                    HasError = true;
-                    return;
-
-                }
-
                 //Invalid
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Error", "Invalid email or password.", "OK");
-                    HasError = true;
+                    await Application.Current.MainPage.DisplayAlert("Error", "Invalid email or password.", "OK");
                 }
             }
             else
             {
-                Debug.WriteLine("Failed to get data");
+                await Application.Current.MainPage.DisplayAlert("Error", "An erro has occured please try again", "OK");
             }
         }
 

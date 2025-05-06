@@ -50,17 +50,17 @@
                         TextColor="Black"
                         VerticalOptions="Center"
                         Grid.Column="0"
-                        Margin="10,0,40,0" />
+                        Margin="0,0,0,0" />
 
                     <!-- Eye Icon for Toggle -->
                     <Label 
                         Text="{Binding EyeIcon}" 
                         FontSize="15"
                         Padding="5"
+                        BackgroundColor="White"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
                         TextColor="Black">
-
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
                         </Label.GestureRecognizers>
