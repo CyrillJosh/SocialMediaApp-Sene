@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Socialmedia.MVVM.View.LoginPage"
+             xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="Blue">
+
+    <ContentPage.BindingContext>
+        <vm:Login />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <!-- Login Form -->
+        <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+            <!-- App Logo -->
+            <Image 
+                Source="senelogowhite.png" 
+                 HeightRequest="200"
+                 WidthRequest="300"
+                 HorizontalOptions="Center" />  
+
+            <!-- Email Entry -->
+            <Border StrokeThickness="1" Stroke="Black" BackgroundColor="White" Padding="5" HeightRequest="50">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Entry 
+                    Placeholder="Email" 
+                    Text="{Binding User.Email}" 
+                    Keyboard="Email" 
+                    BackgroundColor="Transparent" 
+                    TextColor="Black" />
+            </Border>
+
+            <!-- Password Entry -->
+            <Border StrokeThickness="1" Stroke="Black" BackgroundColor="White" Padding="5" HeightRequest="50">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="*, Auto">
+                    <Entry 
+                        Placeholder="Password" 
+                        Text="{Binding User.Password}" 
+                        IsPassword="{Binding IsPasswordHidden}" 
+                        BackgroundColor="Transparent" 
+                        TextColor="Black"
+                        VerticalOptions="Center"
+                        Grid.Column="0"
+                        Margin="10,0,40,0" />
+
+                    <!-- Eye Icon for Toggle -->
+                    <Label 
+                        Text="{Binding EyeIcon}" 
+                        FontSize="15"
+                        Padding="5"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        TextColor="Black">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Border>
+
+            <!-- Error Message -->
+            <Label 
+                Text="{Binding ErrorMessage}" 
+                TextColor="Red" 
+                IsVisible="{Binding HasError}" 
+                HorizontalOptions="Center"
+                FontSize="14"/>
+
+            <!-- Login Button -->
+            <Button 
+                Text="Login" 
+                Command="{Binding LoginCommand}" 
+                BackgroundColor="#6200EE" 
+                TextColor="White" 
+                CornerRadius="10"/>
+
+            <!-- Navigate to Registration Page -->
+            <Label 
+                Text="Don't have an account? Register" 
+                TextColor="WhiteSmoke" 
+                HorizontalOptions="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateToRegisterCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

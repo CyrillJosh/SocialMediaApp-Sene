@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Socialmedia.MVVM.View.RegisterPage"
+             xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+            BackgroundColor="Blue">
+
+    <ContentPage.BindingContext>
+        <vm:Register />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+
+            <!-- App Logo -->
+            <Image 
+                Source="senelogowhite.png" 
+                HeightRequest="200"
+                WidthRequest="300"
+                HorizontalOptions="Center" />  
+
+            <!-- Name Entry -->
+            <Border 
+                StrokeThickness="1" 
+                Stroke="Black" 
+                BackgroundColor="White"
+                Padding="5" 
+                HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Entry 
+                    Placeholder="Full Name" 
+                    Text="{Binding FullName}" 
+                    BackgroundColor="Transparent" 
+                    TextColor="Black"/>
+            </Border>
+
+            <!-- Email Entry -->
+            <Border 
+                StrokeThickness="1" 
+                Stroke="Black" 
+                BackgroundColor="White" 
+                Padding="5" 
+                HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Entry 
+                     Placeholder="Email" 
+                     Text="{Binding Email}" 
+                     Keyboard="Email"
+                     BackgroundColor="White" 
+                     TextColor="Black"/>
+            </Border>
+
+            <!-- Phone Number Entry -->
+            <Border 
+                StrokeThickness="1" 
+                Stroke="Black" 
+                BackgroundColor="White" 
+                Padding="5" 
+                HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Entry Placeholder="Phone Number" 
+                   Text="{Binding Pnum, Mode=TwoWay}" 
+                   Keyboard="Telephone"
+                   MaxLength="11"
+                   BackgroundColor="Transparent"
+                   TextColor="Black"/>
+
+            </Border>
+
+
+            <!-- Password Entry -->
+            <Border 
+                StrokeThickness="1" 
+                Stroke="Black" 
+                BackgroundColor="White" 
+                Padding="5" 
+                HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="*, Auto">
+                    <!-- Password Entry -->
+                    <Entry 
+                         Placeholder="Password" 
+                         Text="{Binding Password}" 
+                         IsPassword="{Binding IsPasswordHidden}" 
+                         BackgroundColor="Transparent" 
+                         TextColor="Black"
+                         VerticalOptions="Center"
+                         Grid.Column="0"
+                         Margin="10,0,40,0" />
+
+                    <!-- hide show pass -->
+                    <Label 
+                        Text="{Binding EyeIcon}" 
+                        FontSize="15"
+                        Padding="5"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        TextColor="Black">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Border>
+
+            <!-- Confirm Password Entry -->
+            <Border 
+                StrokeThickness="1" 
+                Stroke="Black" 
+                BackgroundColor="White" 
+                Padding="5" 
+                HeightRequest="50">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="*, Auto">
+                    <!-- Confirm Password Entry -->
+                    <Entry 
+                         Placeholder="Confirm Password" 
+                         Text="{Binding ConfirmPassword}" 
+                         IsPassword="{Binding IsConfirmPasswordHidden}" 
+                         BackgroundColor="Transparent" 
+                         TextColor="Black"
+                         VerticalOptions="Center"
+                         Grid.Column="0"
+                         Margin="10,0,40,0" />
+
+                    <!-- Eye Icon for Toggle -->
+                    <Label 
+                        Text="{Binding ConfirmEyeIcon}" 
+                        FontSize="15"
+                        Padding="5"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        TextColor="Black">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleConfirmPasswordCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Border>
+
+            <!-- Register Button -->
+            <Button 
+                Text="Register" 
+                Command="{Binding RegisterCommand}" 
+                BackgroundColor="#6200EE" 
+                TextColor="White" 
+                CornerRadius="10"/>
+
+            <!-- Navigate to Login Page -->
+            <Label 
+                Text="Already have an account? Login" 
+                TextColor="white" 
+                HorizontalOptions="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateToLoginCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

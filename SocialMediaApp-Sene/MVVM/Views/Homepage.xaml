@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Socialmedia.MVVM.View.Homepage"
+             BackgroundColor="#5de0e6"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             BindingContext="{Binding Source={x:StaticResource HomePageViewModel}}">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <!-- Top Bar -->
+        <Grid BackgroundColor= "#349dcd" Padding="10"
+              ColumnDefinitions="Auto, *, Auto"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="Start">
+           
+            <Frame x:Name="FlyoutMenu"
+                TranslationX="{Binding FlyoutMenuPosition}"
+                BackgroundColor="#004aad"
+                CornerRadius="10"
+                Padding="20"
+                WidthRequest="250"
+                HeightRequest="1000"
+                VerticalOptions="Start"
+                HasShadow="True">
+                <StackLayout>
+                    <!-- Back Button -->
+                    <Button Text="Back" 
+                        FontSize="16" 
+                        BackgroundColor="Transparent" 
+                        TextColor="White"
+                        Command="{Binding CloseFlyoutCommand}" />
+
+                    <Label Text="Profile" FontSize="18" TextColor="White"/>
+                    <Label Text="Settings" FontSize="18" TextColor="White"/>
+                    <Label Text="Notifications" FontSize="18" TextColor="White"/>
+                    <Label Text="Logout" FontSize="18" TextColor="Red"/>
+                </StackLayout>
+            </Frame>
+
+
+            <!-- Menu Button -->
+            <Grid 
+                BackgroundColor="#16213e" 
+                Padding="10"
+                HorizontalOptions="Start" 
+                VerticalOptions="Start">
+
+                <Button 
+                    Text="☰" 
+                    FontSize="24" 
+                    BackgroundColor="Transparent" 
+                    TextColor="White"
+                    Command="{Binding ToggleFlyoutCommand}" />
+
+
+            </Grid>
+        </Grid>
+
+
+        <!-- Chat Area (Scrollable) -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="10">
+                <Label Text="Chat Messages:" FontSize="16" TextColor="White" HeightRequest="20"/>
+                <ListView ItemsSource="{Binding Messages}" 
+                  BackgroundColor="Transparent" 
+                  HasUnevenRows="True" 
+                  SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="5">
+                                    <Frame BackgroundColor="#0f3460"
+                                   Padding="10"
+                                   Margin="5"
+                                   CornerRadius="10"
+                                   HasShadow="False"
+                                   HorizontalOptions="Start">
+                                        <Label Text="{Binding .}" 
+                                       TextColor="White" 
+                                       FontSize="14"
+                                       LineBreakMode="WordWrap"/>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Message Input (FIXED AT BOTTOM) -->
+        <Grid Grid.Row="2" Padding="10" BackgroundColor="#0f3460">
+            <Grid ColumnDefinitions="*, Auto">
+                <Border StrokeThickness="1" Stroke="Black" BackgroundColor="White" Padding="5" HeightRequest="50">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Entry Placeholder="Type a message..." 
+                       BackgroundColor="White"
+                       TextColor="Black"
+                       Text="{Binding MessageText, Mode=TwoWay}"/>
+                </Border>
+               
+                <Button Text="Send" BackgroundColor="#e94560" TextColor="White" 
+                        Command="{Binding SendMessageCommand}" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</ContentPage>
