@@ -21,7 +21,7 @@ namespace Socialmedia.MVVM.ViewModel
         private bool isPasswordHidden = true;
 
         [ObservableProperty]
-        private string eyeIcon = "Show";
+        private string eyeIcon = "view.png";
 
         [ObservableProperty]
         private string errorMessage;
@@ -90,7 +90,7 @@ namespace Socialmedia.MVVM.ViewModel
         private void TogglePasswordVisibility()
         {
             IsPasswordHidden = !IsPasswordHidden;
-            EyeIcon = IsPasswordHidden ? "show.png" : "hide.png"; // Fix: Correct icon toggle
+            EyeIcon = IsPasswordHidden ? "view.png" : "hide.png"; // Fix: Correct icon toggle
         }
 
         private void NavigateToRegister()
