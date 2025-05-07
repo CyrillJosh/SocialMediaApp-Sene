@@ -5,7 +5,7 @@
              x:Class="Socialmedia.MVVM.View.Splash"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="Blue">
+             BackgroundColor="#001130">
 
     <Grid>
         <!-- GIF Animation -->

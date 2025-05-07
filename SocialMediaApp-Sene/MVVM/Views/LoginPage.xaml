@@ -5,23 +5,147 @@
              xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="Blue">
+             BackgroundColor="#0a2961">
 
     <ContentPage.BindingContext>
         <vm:Login />
     </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-    <Grid>
-        <!-- Login Form -->
+            <!-- Top Logo Section -->
+            <Grid HeightRequest="250">
+                <Ellipse Fill="#f5f5f5"
+                         WidthRequest="500"
+                         Margin="0,-170,0,0"
+                         HeightRequest="400"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Start"/>
+                <Image Source="logoblack.png"
+                       HeightRequest="170"
+                       Margin="0,-50,0,0"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </Grid>
+
+            <!-- Login Header -->
+            <Label Text="LOGIN"
+                   FontSize="28"
+                   TextColor="White"
+                   Margin="0,0,0,-20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center"
+                                   Margin="0,0,0,20">
+                <Label Text="Don't have an account?" TextColor="White"/>
+                <Label Text=" sign up" TextColor="#00D1D1" FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToRegisterCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+            <!-- Username Entry -->
+            <Frame BackgroundColor="#f5f5f5"
+               CornerRadius="40"
+               Padding="0"
+               HasShadow="False">
+                <Grid
+                    Padding="15,5"
+                    ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="user.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"/>
+                    <Entry Placeholder="Username"
+                       Text="{Binding User.Email}" 
+                       Grid.Column="1"
+                       FontSize="16"
+                       BackgroundColor="Transparent"
+                       TextColor="Black"/>
+                </Grid>
+            </Frame>
+
+            <!-- Password Entry -->
+            <Frame BackgroundColor="#f5f5f5"
+               CornerRadius="40"
+               Padding="0"
+               HasShadow="False">
+                <Grid
+                    Padding="15,5"
+                    ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="password.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"/>
+                    <Entry Placeholder="Password"
+                       IsPassword="True"
+                       Grid.Column="1"
+                       FontSize="16"
+                       BackgroundColor="Transparent"
+                       TextColor="Black"/>
+                    <ImageButton Source="eye_icon.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       BackgroundColor="Black"
+                       Grid.Column="2"
+                       VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <!-- Remember Me --><!--
+            <CheckBox IsChecked="True"
+                      Color="#00D1D1"/>
+            <Label Text="Remember me"
+                   TextColor="White"
+                   VerticalOptions="Center"
+                   FontSize="14"/>-->
+
+            <!-- Login Button -->
+            <HorizontalStackLayout
+                HorizontalOptions="End"
+                Margin="0,5">
+                <Button Text="Login"
+                        FontSize="18"
+                        BackgroundColor="#00C3C9"
+                        TextColor="White"
+                        Command="{Binding LoginCommand}" 
+                        CornerRadius="25"
+                        HeightRequest="50">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="⮕" Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+            </HorizontalStackLayout>
+            <Label
+                Margin="0,75,0,0"
+                FontSize="10"
+                HorizontalOptions="Center"
+                Text="Odato - Pua - Rosell - Casas"
+                TextColor="#e2e1df"/>
+        </VerticalStackLayout>
+    </ScrollView>
+    <!--<Grid>
+        --><!-- Login Form --><!--
         <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
-            <!-- App Logo -->
+            --><!-- App Logo --><!--
             <Image 
                 Source="senelogowhite.png" 
                  HeightRequest="200"
                  WidthRequest="300"
                  HorizontalOptions="Center" />  
 
-            <!-- Email Entry -->
+            --><!-- Email Entry --><!--
             <Border StrokeThickness="1" Stroke="Black" BackgroundColor="White" Padding="5" HeightRequest="50">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="10"/>
@@ -35,7 +159,7 @@
                     TextColor="Black" />
             </Border>
 
-            <!-- Password Entry -->
+            --><!-- Password Entry --><!--
             <Border StrokeThickness="1" Stroke="Black" BackgroundColor="White" Padding="5" HeightRequest="50">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="10"/>
@@ -52,7 +176,7 @@
                         Grid.Column="0"
                         Margin="0,0,0,0" />
 
-                    <!-- Eye Icon for Toggle -->
+                    --><!-- Eye Icon for Toggle --><!--
                     <Label 
                         Text="{Binding EyeIcon}" 
                         FontSize="15"
@@ -68,7 +192,7 @@
                 </Grid>
             </Border>
 
-            <!-- Error Message -->
+            --><!-- Error Message --><!--
             <Label 
                 Text="{Binding ErrorMessage}" 
                 TextColor="Red" 
@@ -76,7 +200,7 @@
                 HorizontalOptions="Center"
                 FontSize="14"/>
 
-            <!-- Login Button -->
+            --><!-- Login Button --><!--
             <Button 
                 Text="Login" 
                 Command="{Binding LoginCommand}" 
@@ -84,7 +208,7 @@
                 TextColor="White" 
                 CornerRadius="10"/>
 
-            <!-- Navigate to Registration Page -->
+            --><!-- Navigate to Registration Page --><!--
             <Label 
                 Text="Don't have an account? Register" 
                 TextColor="WhiteSmoke" 
@@ -95,6 +219,6 @@
                 </Label.GestureRecognizers>
             </Label>
         </VerticalStackLayout>
-    </Grid>
+    </Grid>-->
 
 </ContentPage>
