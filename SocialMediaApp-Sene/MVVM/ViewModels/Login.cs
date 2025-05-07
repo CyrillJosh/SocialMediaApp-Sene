@@ -90,7 +90,7 @@ namespace Socialmedia.MVVM.ViewModel
         private void TogglePasswordVisibility()
         {
             IsPasswordHidden = !IsPasswordHidden;
-            EyeIcon = IsPasswordHidden ? "Show" : "Hide"; // Fix: Correct icon toggle
+            EyeIcon = IsPasswordHidden ? "show.png" : "hide.png"; // Fix: Correct icon toggle
         }
 
         private void NavigateToRegister()

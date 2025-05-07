@@ -94,11 +94,11 @@
                        FontSize="16"
                        BackgroundColor="Transparent"
                        TextColor="Black"/>
-                    <ImageButton Source="eye_icon.png"
+                    <ImageButton Source="{Binding EyeIcon}"
                        WidthRequest="24"
                        HeightRequest="24"
-                       BackgroundColor="Black"
                        Grid.Column="2"
+                       Command="{Binding TogglePasswordCommand}"
                        VerticalOptions="Center"/>
                 </Grid>
             </Frame>
