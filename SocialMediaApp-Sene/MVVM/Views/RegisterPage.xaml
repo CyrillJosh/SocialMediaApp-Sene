@@ -11,7 +11,7 @@
         <vm:Register />
     </ContentPage.BindingContext>
 
-    <Grid>
+    <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
             
             <!-- App Logo -->
@@ -34,7 +34,7 @@
                 </Border.StrokeShape>
 
                 <Entry 
-                    Placeholder="Full Name" 
+                    Placeholder="First Name" 
                     Text="{Binding User.Firstname}" 
                     BackgroundColor="Transparent" 
                     TextColor="Black"/>
@@ -53,7 +53,7 @@
                 </Border.StrokeShape>
 
                 <Entry 
-                 Placeholder="Full Name" 
+                 Placeholder="Last Name" 
                  Text="{Binding User.Lastname}" 
                  BackgroundColor="Transparent" 
                  TextColor="Black"/>
@@ -72,8 +72,9 @@
                 </Border.StrokeShape>
                 <HorizontalStackLayout>
                     <DatePicker
-                     BackgroundColor="Transparent"
-                     MaximumDate="{Binding datenow}"/>
+                        TextColor="Black"
+                        BackgroundColor="Transparent"
+                        MaximumDate="{Binding datenow}"/>
                 </HorizontalStackLayout>
             </Border>
             
@@ -88,12 +89,22 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="10"/>
                 </Border.StrokeShape>
-
-                <Entry 
-                 Placeholder="Full Name" 
+                <Picker
+                    VerticalOptions="Center"
+                    Title="Gender"
+                    SelectedItem="{Binding User.Gender}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Female</x:String>
+                            <x:String>Male</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <!--<Entry 
+                 Placeholder="Gender" 
                  Text="{Binding User.Gender}" 
                  BackgroundColor="Transparent" 
-                 TextColor="Black"/>
+                 TextColor="Black"/>-->
             </Border>
 
             <!-- Email Entry -->
@@ -237,5 +248,5 @@
                 </Label.GestureRecognizers>
             </Label>
         </VerticalStackLayout>
-    </Grid>
+    </ScrollView>
 </ContentPage>

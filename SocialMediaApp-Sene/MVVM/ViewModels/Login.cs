@@ -31,8 +31,8 @@ namespace Socialmedia.MVVM.ViewModel
         public ICommand TogglePasswordCommand { get; }
         public ICommand NavigateToRegisterCommand { get; }
 
-        //MockAPi
-        private readonly HttpClient _client = new HttpClient();
+        //Client
+        private readonly HttpClient _client;
 
         //Constructor
         public Login()

@@ -8,6 +8,8 @@ using Microsoft.Maui.Storage;
 using SocialMediaApp_Sene;
 using Socialmedia.MVVM.View;
 using SocialMediaApp_Sene.MVVM.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Socialmedia.MVVM.ViewModel
 {
@@ -33,6 +35,10 @@ namespace Socialmedia.MVVM.ViewModel
 
         [ObservableProperty]
         private string confirmEyeIcon = "Show";
+
+        //Client
+        private readonly HttpClient _client;
+
         //Commands
         public ICommand ToggleConfirmPasswordCommand { get; }
         public ICommand RegisterCommand { get; }
@@ -42,6 +48,7 @@ namespace Socialmedia.MVVM.ViewModel
         //Constructor
         public Register()
         {
+            _client = new HttpClient();
             RegisterCommand = new RelayCommand(Registers);
             NavigateToLoginCommand = new RelayCommand(NavigateToLogin);
             TogglePasswordCommand = new RelayCommand(TogglePasswordVisibility);
@@ -56,7 +63,9 @@ namespace Socialmedia.MVVM.ViewModel
                 string.IsNullOrWhiteSpace(User.Lastname) ||
                 string.IsNullOrWhiteSpace(User.Email) ||
                 string.IsNullOrWhiteSpace(User.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(User.BirthDate.ToString()) ||
                 string.IsNullOrWhiteSpace(User.Password) ||
+                string.IsNullOrWhiteSpace(User.Gender) ||
                 string.IsNullOrWhiteSpace(ConfirmPassword))
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Please fill all fields.", "OK");
@@ -64,7 +73,7 @@ namespace Socialmedia.MVVM.ViewModel
             }
 
             //Phone number length
-            if (User.PhoneNumber.All(char.IsDigit) && User.PhoneNumber.Length <= 11)
+            if (User.PhoneNumber.All(char.IsDigit) && User.PhoneNumber.Length < 11)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Phone number must be exactly 11 digits.", "OK");
                 return;
@@ -92,14 +101,26 @@ namespace Socialmedia.MVVM.ViewModel
             }
 
             // Save user details for login validation - change to mock api
-            Preferences.Set("RegisteredEmail", User.Email);
-            Preferences.Set("RegisteredPassword", User.Password);
-            Preferences.Set("RegisteredPhone", User.PhoneNumber);
-            Preferences.Set("RegisteredBirthdate", User.BirthDate);
-            Preferences.Set("IsRegistered", true);
+            //Preferences.Set("RegisteredEmail", User.Email);
+            //Preferences.Set("RegisteredPassword", User.Password);
+            //Preferences.Set("RegisteredPhone", User.PhoneNumber);
+            //Preferences.Set("RegisteredBirthdate", User.BirthDate);
 
-            await Application.Current.MainPage.DisplayAlert("Success", "Registration complete!", "OK");
-            await Application.Current.MainPage.Navigation.PopAsync(); // Navigate back to Login
+            var json = JsonConvert.SerializeObject(User);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var baseUrl = "https://6819ae131ac115563505b710.mockapi.io/Users";
+
+            HttpResponseMessage response = await _client.PostAsync(baseUrl, content);
+            if(response.IsSuccessStatusCode)
+            {
+                await Application.Current.MainPage.DisplayAlert("Success", "Registration complete!", "OK");
+                Application.Current.MainPage = App.Services.GetRequiredService<LoginPage>(); // Navigate back to Login
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "An erro has occured please try again", "OK");
+            }
+
         }
 
 
