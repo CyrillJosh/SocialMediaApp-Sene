@@ -53,7 +53,6 @@ namespace Socialmedia.MVVM.ViewModel
             NavigateToLoginCommand = new RelayCommand(NavigateToLogin);
             TogglePasswordCommand = new RelayCommand(TogglePasswordVisibility);
             ToggleConfirmPasswordCommand = new RelayCommand(ToggleConfirmPasswordVisibility);
-           
         }
 
         private async void Registers()
