@@ -31,10 +31,10 @@ namespace Socialmedia.MVVM.ViewModel
         private bool isConfirmPasswordHidden = true;
 
         [ObservableProperty]
-        private string eyeIcon = "Show";
+        private string eyeIcon = "view.png";
 
         [ObservableProperty]
-        private string confirmEyeIcon = "Show";
+        private string confirmEyeIcon = "view.png";
 
         //Client
         private readonly HttpClient _client;
@@ -132,14 +132,14 @@ namespace Socialmedia.MVVM.ViewModel
 
         private void TogglePasswordVisibility()
         {
+            EyeIcon = IsPasswordHidden ? "hide.png" : "view.png";
             IsPasswordHidden = !IsPasswordHidden;
-            EyeIcon = IsPasswordHidden ? "Show" : "Hide";
         }
 
         private void ToggleConfirmPasswordVisibility()
         {
+            ConfirmEyeIcon = IsConfirmPasswordHidden ? "hide.png" : "view.png";
             IsConfirmPasswordHidden = !IsConfirmPasswordHidden;
-            ConfirmEyeIcon = IsConfirmPasswordHidden ? "Show" : "Hide";
         }
     }
 }

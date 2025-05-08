@@ -89,7 +89,7 @@
                        HeightRequest="24"
                        VerticalOptions="Center"/>
                     <Entry Placeholder="Password"
-                       IsPassword="True"
+                       IsPassword="{Binding IsPasswordHidden}"
                        Grid.Column="1"
                        FontSize="16"
                        BackgroundColor="Transparent"

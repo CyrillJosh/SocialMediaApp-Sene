@@ -46,19 +46,13 @@ namespace Socialmedia.MVVM.ViewModel
         private async void LoginUser()
         {
             //Empty
-            if (string.IsNullOrWhiteSpace(User.Email) || string.IsNullOrWhiteSpace(User.Password))
+            if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Please enter both email and password.", "OK");
                 return;
             }
 
-            //Gmail format
-            if (!User.Email.EndsWith("@gmail.com"))
-            {
-                await Application.Current.MainPage.DisplayAlert("Invalid Email", "Email must end with '@gmail.com'.", "OK");
-                return;
-            }
-
+  
             //MockAPI
             var url = "https://6819ae131ac115563505b710.mockapi.io/Users";
             HttpResponseMessage response = await _client.GetAsync(url);
@@ -89,8 +83,8 @@ namespace Socialmedia.MVVM.ViewModel
 
         private void TogglePasswordVisibility()
         {
+            EyeIcon = IsPasswordHidden ? "hide.png" : "view.png"; // Fix: Correct icon toggle
             IsPasswordHidden = !IsPasswordHidden;
-            EyeIcon = IsPasswordHidden ? "view.png" : "hide.png"; // Fix: Correct icon toggle
         }
 
         private void NavigateToRegister()
