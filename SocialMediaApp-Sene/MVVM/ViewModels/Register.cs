@@ -60,6 +60,7 @@ namespace Socialmedia.MVVM.ViewModel
             //Empty
             if (string.IsNullOrWhiteSpace(User.Firstname) ||
                 string.IsNullOrWhiteSpace(User.Lastname) ||
+                string.IsNullOrWhiteSpace(User.Username) ||
                 string.IsNullOrWhiteSpace(User.Email) ||
                 string.IsNullOrWhiteSpace(User.PhoneNumber) ||
                 string.IsNullOrWhiteSpace(User.BirthDate.ToString()) ||
@@ -85,6 +86,25 @@ namespace Socialmedia.MVVM.ViewModel
                 return;
             }
 
+            var url = "https://6819ae131ac115563505b710.mockapi.io/Users";
+            HttpResponseMessage chkuser = await _client.GetAsync(url);
+
+            if (chkuser.IsSuccessStatusCode)
+            {
+                string jsonstring = await chkuser.Content.ReadAsStringAsync();
+                List<User> users = JsonConvert.DeserializeObject<List<User>>(jsonstring);
+                //Username Exist
+                if (users.Any(x => x.Username == User.Username))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Username already exists please try another", "OK");
+                    return;
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
+            }
+
             //Password format
             if (User.Password.Length < 8 || !User.Password.Any(char.IsDigit) || !User.Password.Any(ch => !char.IsLetterOrDigit(ch)))
             {
@@ -107,9 +127,8 @@ namespace Socialmedia.MVVM.ViewModel
 
             var json = JsonConvert.SerializeObject(User);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var baseUrl = "https://6819ae131ac115563505b710.mockapi.io/Users";
 
-            HttpResponseMessage response = await _client.PostAsync(baseUrl, content);
+            HttpResponseMessage response = await _client.PostAsync(url, content);
             if(response.IsSuccessStatusCode)
             {
                 await Application.Current.MainPage.DisplayAlert("Success", "Registration complete!", "OK");
@@ -117,7 +136,7 @@ namespace Socialmedia.MVVM.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "An erro has occured please try again", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
             }
 
         }

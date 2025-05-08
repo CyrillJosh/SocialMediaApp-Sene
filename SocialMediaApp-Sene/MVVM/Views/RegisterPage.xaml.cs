@@ -1,4 +1,5 @@
-﻿using Socialmedia.MVVM.ViewModel;
+﻿using System;
+using Socialmedia.MVVM.ViewModel;
 
 namespace Socialmedia.MVVM.View;
 
@@ -9,8 +10,12 @@ public partial class RegisterPage : ContentPage
         InitializeComponent();
     }
 
+    //UI/UX for default text "Birthdate" to display
     private void DateChanged(object sender, DateChangedEventArgs e)
     {
-        DateEntry.Text = datePicker.Date.ToString("mm/dd/yyyy");
+        DateEntry.Text = e.NewDate.ToString("MM/dd/yyyy");
+
+        if (BindingContext is Register viewModel)
+            viewModel.User.BirthDate = e.NewDate;
     }
 }

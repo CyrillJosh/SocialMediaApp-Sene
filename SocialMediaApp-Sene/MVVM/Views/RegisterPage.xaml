@@ -12,7 +12,7 @@
     </ContentPage.BindingContext>
     <ScrollView>
         <Grid>
-            <VerticalStackLayout Padding="20" Spacing="20">
+            <VerticalStackLayout Padding="20" Spacing="20" Margin="0,0,0,75">
 
                 <!-- Top Logo Section -->
                 <Grid HeightRequest="250">
@@ -159,17 +159,67 @@
                             Placeholder="Birth Date">
                         </Entry>
                         <DatePicker
-                            x:Name="datePicker"
                             Grid.Column="1"
                             MaximumDate="{Binding datenow}"
                             MinimumDate="01/01/1900"
-                            Date="{Binding User.BirthDate}"
                             DateSelected="DateChanged"
                             TextColor="Transparent"
                             Background="Transparent"
                             VerticalOptions="Center"
                             FontSize="16">
                         </DatePicker>
+                    </Grid>
+                </Frame>
+                <!--#endregion-->
+                <!--#region Email -->
+                <Frame BackgroundColor="#f5f5f5"
+                       CornerRadius="40"
+                       Padding="0"
+                       HasShadow="False">
+                    <Grid
+                        Padding="15,5"
+                        ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="mail.png"
+                               WidthRequest="24"
+                               HeightRequest="24"
+                               VerticalOptions="Center"/>
+                        <Entry Placeholder="Email Address"
+                               Text="{Binding User.Email}" 
+                               Grid.Column="1"
+                               Keyboard="Email"
+                               FontSize="16"
+                               BackgroundColor="Transparent"
+                               TextColor="Black"/>
+                    </Grid>
+                </Frame>
+                <!--#endregion-->
+                <!--#region PhoneNumber -->
+                <Frame BackgroundColor="#f5f5f5"
+                       CornerRadius="40"
+                       Padding="0"
+                       HasShadow="False">
+                    <Grid
+                        Padding="15,5"
+                        ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="phone.png"
+                               WidthRequest="24"
+                               HeightRequest="24"
+                               VerticalOptions="Center"/>
+                        <Entry Placeholder="Phone Number"
+                               Text="{Binding User.PhoneNumber}" 
+                               Keyboard="Telephone"
+                               Grid.Column="1"
+                               FontSize="16"
+                               BackgroundColor="Transparent"
+                               TextColor="Black"/>
                     </Grid>
                 </Frame>
                 <!--#endregion-->
@@ -197,7 +247,7 @@
                          HeightRequest="24"
                          VerticalOptions="Center"/>
                         <Entry Placeholder="Username"
-                         Text="{Binding User.Email}" 
+                         Text="{Binding User.Username}" 
                          Grid.Column="1"
                          FontSize="16"
                          BackgroundColor="Transparent"
@@ -227,6 +277,7 @@
                          IsPassword="{Binding IsPasswordHidden}"
                          Grid.Column="1"
                          FontSize="16"
+                         Text="{Binding User.Password}"
                          BackgroundColor="Transparent"
                          TextColor="Black"/>
                         <ImageButton Source="{Binding EyeIcon}"
@@ -260,6 +311,7 @@
                          IsPassword="{Binding IsConfirmPasswordHidden}"
                          Grid.Column="1"
                          FontSize="16"
+                         Text="{Binding ConfirmPassword}"
                          BackgroundColor="Transparent"
                          TextColor="Black"/>
                         <ImageButton Source="{Binding ConfirmEyeIcon}"
