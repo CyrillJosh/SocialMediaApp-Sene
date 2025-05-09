@@ -216,6 +216,7 @@
                         <Entry Placeholder="Phone Number"
                                Text="{Binding User.PhoneNumber}" 
                                Keyboard="Telephone"
+                               MaxLength="11"
                                Grid.Column="1"
                                FontSize="16"
                                BackgroundColor="Transparent"

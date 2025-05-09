@@ -9,7 +9,7 @@ namespace SocialMediaApp_Sene
         {
             InitializeComponent();
             Services = serviceProvider;
-            MainPage = new Splash();
+            MainPage = Services.GetRequiredService<Splash>();
         }
     }
 }

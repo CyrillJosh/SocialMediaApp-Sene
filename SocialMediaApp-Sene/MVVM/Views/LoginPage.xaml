@@ -64,7 +64,7 @@
                            HeightRequest="24"
                            VerticalOptions="Center"/>
                         <Entry Placeholder="Username"
-                           Text="{Binding User.Email}" 
+                           Text="{Binding User.Username}" 
                            Grid.Column="1"
                            FontSize="16"
                            BackgroundColor="Transparent"
@@ -92,6 +92,7 @@
                         <Entry Placeholder="Password"
                            IsPassword="{Binding IsPasswordHidden}"
                            Grid.Column="1"
+                           Text="{Binding User.Password}"
                            FontSize="16"
                            BackgroundColor="Transparent"
                            TextColor="Black"/>

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui;
+﻿ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Socialmedia.MVVM.View;
 

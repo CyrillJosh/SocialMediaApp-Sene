@@ -100,6 +100,7 @@ namespace Socialmedia.MVVM.ViewModel
                     return;
                 }
             }
+            //Connection Error
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
@@ -119,21 +120,17 @@ namespace Socialmedia.MVVM.ViewModel
                 return;
             }
 
-            // Save user details for login validation - change to mock api
-            //Preferences.Set("RegisteredEmail", User.Email);
-            //Preferences.Set("RegisteredPassword", User.Password);
-            //Preferences.Set("RegisteredPhone", User.PhoneNumber);
-            //Preferences.Set("RegisteredBirthdate", User.BirthDate);
-
             var json = JsonConvert.SerializeObject(User);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _client.PostAsync(url, content);
+            //Registration Success
             if(response.IsSuccessStatusCode)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Registration complete!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Success", "Successfully Registered!", "OK");
                 Application.Current.MainPage = App.Services.GetRequiredService<LoginPage>(); // Navigate back to Login
             }
+            //Connection Error
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");

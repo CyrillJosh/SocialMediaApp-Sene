@@ -48,7 +48,7 @@ namespace Socialmedia.MVVM.ViewModel
             //Empty
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please enter both email and password.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Please enter your username and password.", "OK");
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace Socialmedia.MVVM.ViewModel
                 List<User> users = JsonConvert.DeserializeObject<List<User>>(jsonstring);
 
                 //If exist -- Needs Update -- Check if user with username and password exist in the users list
-                if (users.Any(x=> x.Email == User.Email && x.Password == User.Password))
+                if (users.Any(x=> x.Username == User.Username && x.Password == User.Password))
                 {
                     await Application.Current.MainPage.DisplayAlert("Success", "Login successful!", "OK");
 
@@ -72,12 +72,12 @@ namespace Socialmedia.MVVM.ViewModel
                 //Invalid
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Invalid email or password.", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");
                 }
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "An erro has occured please try again", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
             }
         }
 
