@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SocialMediaApp_Sene;
+using SocialMediaApp_Sene.MVVM.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -19,14 +21,15 @@ namespace Socialmedia.MVVM.ViewModel
         //Commands
         public ICommand ToggleFlyoutCommand { get; }
         public ICommand SendMessageCommand { get; }
-        public ICommand CloseFlyoutCommand { get; } // New command for Back Button
-
+        public ICommand CloseFlyoutCommand { get; } 
+        public ICommand NavigateToAddPostCommand { get; }
         //Constructor
         public HomePageViewModel()
         {
             ToggleFlyoutCommand = new RelayCommand(ToggleFlyoutMenu);
             SendMessageCommand = new RelayCommand(SendMessage);
-            CloseFlyoutCommand = new RelayCommand(CloseFlyout); // Initialize the new command
+            CloseFlyoutCommand = new RelayCommand(CloseFlyout); 
+            NavigateToAddPostCommand = new RelayCommand(NavigateToAddPost);
         }
 
         private void CloseFlyout()
@@ -45,6 +48,12 @@ namespace Socialmedia.MVVM.ViewModel
                 Messages.Add(MessageText);
                 MessageText = string.Empty;
             }
+        }
+
+        private void NavigateToAddPost()
+        {
+            var page = App.Services.GetRequiredService<CreatePost>();
+            Application.Current.MainPage = page;
         }
     }
 }

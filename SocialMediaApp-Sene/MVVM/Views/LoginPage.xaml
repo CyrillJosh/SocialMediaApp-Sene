@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False"
+             
              BackgroundColor="#0a2961">
 
     <ContentPage.BindingContext>

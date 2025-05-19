@@ -1,6 +1,7 @@
 ﻿ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Socialmedia.MVVM.View;
+using SocialMediaApp_Sene.MVVM.Views;
 
 namespace SocialMediaApp_Sene
 {
@@ -29,6 +30,7 @@ namespace SocialMediaApp_Sene
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<RegisterPage>();
             builder.Services.AddSingleton<Homepage>();
+            builder.Services.AddSingleton<CreatePost>();
 
             return builder.Build();
         }
