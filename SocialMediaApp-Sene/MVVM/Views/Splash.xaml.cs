@@ -15,7 +15,7 @@ namespace Socialmedia.MVVM.View
 
         private void StartTimer()
         {
-            TimeSpan splashDuration = TimeSpan.FromSeconds(2.5); // gif duration
+            TimeSpan splashDuration = TimeSpan.FromSeconds(2.4); // gif duration
 
             Dispatcher.StartTimer(splashDuration, () =>
             {

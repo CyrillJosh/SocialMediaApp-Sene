@@ -86,7 +86,7 @@ namespace Socialmedia.MVVM.ViewModel
                 return;
             }
 
-            var url = "https://682527810f0188d7e72c2016.mockapi.io/Users";
+            var url = "LES";
             HttpResponseMessage chkuser = await _client.GetAsync(url);
 
             if (chkuser.IsSuccessStatusCode)

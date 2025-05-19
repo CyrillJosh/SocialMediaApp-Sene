@@ -57,19 +57,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Remove="Platforms\Android\Resources\values\styles.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Remove="Resources\Fonts\FluentUI.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Platforms\Android\Resources\values\styles.xml" />
 	  <None Remove="Resources\Images\hide.png" />
 	  <None Remove="Resources\Images\sene.gif" />
 	  <None Remove="Resources\Images\senelogowhite.png" />
 	  <None Remove="Resources\Images\syntlogo.png" />
 	  <None Remove="Resources\Images\view.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Include="Platforms\Android\Resources\values\styles.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
