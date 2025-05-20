@@ -16,7 +16,6 @@ namespace Socialmedia.MVVM.ViewModel
         [ObservableProperty]
         private User user = new User();
 
-
         [ObservableProperty]
         private bool isPasswordHidden = true;
 
@@ -26,10 +25,27 @@ namespace Socialmedia.MVVM.ViewModel
         [ObservableProperty]
         private string errorMessage;
 
+        [ObservableProperty]
+        private bool activityIndicator;
+
+        [ObservableProperty]
+        private bool showActivity;
+
+        [ObservableProperty]
+        private string title;
+
+        [ObservableProperty]
+        private string message;
+
+        [ObservableProperty]
+        private bool messageVisible;
+
         //Commands
         public ICommand LoginCommand { get; }
         public ICommand TogglePasswordCommand { get; }
         public ICommand NavigateToRegisterCommand { get; }
+
+        public ICommand OkayCommand { get; }
 
         //Client
         private readonly HttpClient _client;
@@ -38,18 +54,21 @@ namespace Socialmedia.MVVM.ViewModel
         public Login()
         {
             _client = new HttpClient();
-            LoginCommand = new RelayCommand(LoginUser);
-            TogglePasswordCommand = new RelayCommand(TogglePasswordVisibility);
-            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister);
+            LoginCommand = new Command(LoginUser);
+            TogglePasswordCommand = new Command(TogglePasswordVisibility);
+            NavigateToRegisterCommand = new Command(NavigateToRegister);
+            OkayCommand = new Command(Okay);
         }
 
         private async void LoginUser()
         {
+            ShowActivity = true;
+            ActivityIndicator = true;
+            MessageVisible = false;
             //Empty
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please enter your username and password.", "OK");
-                return;
+                DisplayError("Error", "Please enter your username and password.");
             }
 
   
@@ -65,18 +84,20 @@ namespace Socialmedia.MVVM.ViewModel
                 //If exist -- Needs Update -- Check if user with username and password exist in the users list
                 if (users.Any(x=> x.Username == User.Username && x.Password == User.Password))
                 {
+                    ActivityIndicator = false;
                     await Application.Current.MainPage.DisplayAlert("Success", "Login successful!", "OK");
-
                     Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
                 }
                 //Invalid
                 else
                 {
+                    ActivityIndicator = false;
                     await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");
                 }
             }
             else
             {
+                ActivityIndicator = false;
                 await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
             }
         }
@@ -90,6 +111,24 @@ namespace Socialmedia.MVVM.ViewModel
         private void NavigateToRegister()
         {
             Application.Current.MainPage = App.Services.GetRequiredService<RegisterPage>();
+        }
+
+        private void Okay()
+        {
+            MessageVisible = false;
+            Title = "";
+            Message = "";
+            ActivityIndicator = false;
+            return;
+        }
+
+        private void DisplayError(string title, string message)
+        {
+            MessageVisible = true;
+            Title = title;
+            Message = message;
+            ActivityIndicator = false;
+
         }
     }
 }
