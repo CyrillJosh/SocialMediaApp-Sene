@@ -25,20 +25,20 @@ namespace Socialmedia.MVVM.ViewModel
         [ObservableProperty]
         private string errorMessage;
 
-        [ObservableProperty]
-        private bool activityIndicator;
+        //[ObservableProperty]
+        //private bool activityIndicator;
 
-        [ObservableProperty]
-        private bool showActivity;
+        //[ObservableProperty]
+        //private bool showActivity;
 
-        [ObservableProperty]
-        private string title;
+        //[ObservableProperty]
+        //private string title;
 
-        [ObservableProperty]
-        private string message;
+        //[ObservableProperty]
+        //private string message;
 
-        [ObservableProperty]
-        private bool messageVisible;
+        //[ObservableProperty]
+        //private bool messageVisible;
 
         //Commands
         public ICommand LoginCommand { get; }
@@ -71,7 +71,7 @@ namespace Socialmedia.MVVM.ViewModel
                 DisplayError("Error", "Please enter your username and password.");
             }
 
-  
+
             //MockAPI
             var url = "https://6819ae131ac115563505b710.mockapi.io/Users";
             HttpResponseMessage response = await _client.GetAsync(url);
@@ -91,14 +91,16 @@ namespace Socialmedia.MVVM.ViewModel
                 //Invalid
                 else
                 {
-                    ActivityIndicator = false;
-                    await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");
+                    DisplayError("Error", "Invalid username or password.");
+
+                    //ActivityIndicator = false;
+                    //await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");
                 }
             }
             else
             {
-                ActivityIndicator = false;
-                await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
+                //ActivityIndicator = false;
+                DisplayError("Error", "An error has occured please try again");
             }
         }
 
@@ -115,6 +117,7 @@ namespace Socialmedia.MVVM.ViewModel
 
         private void Okay()
         {
+            ShowActivity = false;
             MessageVisible = false;
             Title = "";
             Message = "";
@@ -128,7 +131,6 @@ namespace Socialmedia.MVVM.ViewModel
             Title = title;
             Message = message;
             ActivityIndicator = false;
-
         }
     }
 }
