@@ -173,17 +173,18 @@
                                 HorizontalOptions="Start"
                                 TextColor="Black"
                                 IsVisible="{Binding ErrorActivity.MessageVisible}"
-                                Text="{Binding Title}"/>
+                                Text="{Binding ErrorActivity.Title}"/>
                             <Rectangle
                                 HeightRequest="2"
                                 BackgroundColor="Gray"
+                                IsVisible="{Binding ErrorActivity.MessageVisible}"
                                 WidthRequest="100000"/>
                         </VerticalStackLayout>
                         <Label
                             Grid.Row="1"
                             TextColor="Black"
                             IsVisible="{Binding ErrorActivity.MessageVisible}"
-                            Text="{Binding Message}"/>
+                            Text="{Binding ErrorActivity.Message}"/>
                         <Button
                             IsVisible="{Binding ErrorActivity.MessageVisible}"
                             Grid.Row="2"

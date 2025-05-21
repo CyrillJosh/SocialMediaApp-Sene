@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SocialMediaApp_Sene.MVVM.Models
 {
-    public partial class ErrorActivity:ObservableObject
+    public partial class ErrorActivity : ObservableObject
     {
         [ObservableProperty]
         private bool activityIndicator;

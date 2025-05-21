@@ -24,12 +24,10 @@ namespace Socialmedia.MVVM.ViewModel
 
         [ObservableProperty]
         private ErrorActivity errorActivity = new ErrorActivity();
-
         //Commands
         public ICommand LoginCommand { get; }
         public ICommand TogglePasswordCommand { get; }
         public ICommand NavigateToRegisterCommand { get; }
-
         public ICommand OkayCommand { get; }
 
         //Client
@@ -50,7 +48,7 @@ namespace Socialmedia.MVVM.ViewModel
             ErrorActivity.ShowActivity = true;
             ErrorActivity.ActivityIndicator = true;
             ErrorActivity.MessageVisible = false;
-            //Empty
+
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
                 ErrorActivity.DisplayMessage("Error", "Please enter your username and password.");
@@ -59,18 +57,29 @@ namespace Socialmedia.MVVM.ViewModel
 
 
             //MockAPI
-            var url = "https://6819ae131ac115563505b710.mockapi.io/Users";
+            //var url = "https://6819ae131ac115563505b710.mockapi.io/Users"; //CY
+            var url = "https://682527810f0188d7e72c2016.mockapi.io/Users";
             HttpResponseMessage response = await _client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
                 string jsonstring = await response.Content.ReadAsStringAsync();
                 List<User> users = JsonConvert.DeserializeObject<List<User>>(jsonstring);
+                var matchedUser = users.FirstOrDefault(x => x.Username == User.Username && x.Password == User.Password);
 
                 //If exist -- Needs Update -- Check if user with username and password exist in the users list
-                if (users.Any(x=> x.Username == User.Username && x.Password == User.Password))
+                //if (users.Any(x => x.Username == User.Username && x.Password == User.Password))
+                //{
+                //    //ActivityIndicator = false;
+                //    App.CurrentUser =
+
+                //    iErrorHandlingService.DisplayMessage("Success", "Login successful!");
+                //    Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
+                //}
+                if (matchedUser != null)
                 {
-                    //ActivityIndicator = false;
+                    App.CurrentUser = matchedUser; // ✅ Assign the logged-in user globally
+
                     ErrorActivity.DisplayMessage("Success", "Login successful!");
                     Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
                 }
@@ -84,7 +93,7 @@ namespace Socialmedia.MVVM.ViewModel
             }
             else
             {
-                ErrorActivity.DisplayMessage("Error", "An error has occured please try again");
+                //iErrorHandlingService.DisplayMessage("Error", "An error has occured please try again");
                 return;
             }
         }
@@ -99,7 +108,5 @@ namespace Socialmedia.MVVM.ViewModel
         {
             Application.Current.MainPage = App.Services.GetRequiredService<RegisterPage>();
         }
-
-        
     }
 }

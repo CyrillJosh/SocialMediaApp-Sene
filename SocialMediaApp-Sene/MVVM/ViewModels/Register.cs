@@ -85,8 +85,8 @@ namespace Socialmedia.MVVM.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Error", "Email must end with '@gmail.com'.", "OK");
                 return;
             }
-
-            var url = "LES";
+            //var url= "https://6819ae131ac115563505b710.mockapi.io/Users" //CY
+            var url = "https://682527810f0188d7e72c2016.mockapi.io/Users";
             HttpResponseMessage chkuser = await _client.GetAsync(url);
 
             if (chkuser.IsSuccessStatusCode)

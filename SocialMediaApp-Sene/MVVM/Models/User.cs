@@ -10,7 +10,7 @@ namespace SocialMediaApp_Sene.MVVM.Models
         public class User
         {
             //Fields
-            public int Id { get; }
+            public int id { get; }
             public string Firstname { get; set; }
             public string Lastname { get; set; }
             public string Gender { get; set; } 
