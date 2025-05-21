@@ -87,7 +87,7 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
             ErrorService.MessageVisible = false;
             if (string.IsNullOrWhiteSpace(Title))
             {
-                ErrorService.DisplayError("Error", "Please enter a Title.");
+                ErrorService.DisplayMessage("Error", "Please enter a Title.");
                 return;
             }
 
@@ -105,12 +105,12 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
-                ErrorService.DisplaySuccess("Successfully added.");
+                ErrorService.DisplayMessage("Success","Successfully added.",false);
                 GoToHomePage();
             }
             else
             {
-                ErrorService.DisplayError("Error", "Failed to create post.");
+                ErrorService.DisplayMessage("Error", "Failed to create post.");
             }
         }
     }

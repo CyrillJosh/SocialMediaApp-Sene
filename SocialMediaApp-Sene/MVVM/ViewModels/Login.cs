@@ -52,10 +52,11 @@ namespace Socialmedia.MVVM.ViewModel
             ErrorService.ShowActivity = true;
             ErrorService.ActivityIndicator = true;
             ErrorService.MessageVisible = false;
+            ErrorService.ButtonVisible = false;
             //ErrorService.IsSuccessful = true;
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
-                ErrorService.DisplayError("Error", "Please enter your username and password.");
+                ErrorService.DisplayMessage("Error", "Please enter your username and password.");
                 return;
             }
 
@@ -84,21 +85,21 @@ namespace Socialmedia.MVVM.ViewModel
                 {
                     App.CurrentUser = matchedUser; // ✅ Assign the logged-in user globally
                     //ErrorService.IsSuccessful = false;
-                    ErrorService.DisplaySuccess("Login successful!");
-                    await Task.Delay(500);
+                    ErrorService.DisplayMessage("Success","Login successful!",false);
+                    await Task.Delay(10000);
                     Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
                 }
                 //Invalid
                 else
                 {
-                    ErrorService.DisplayError("Error", "Invalid username or password.");
+                    ErrorService.DisplayMessage("Error", "Invalid username or password.");
                     User.Password = "";
                     return;
                 }
             }
             else
             {
-                ErrorService.DisplayError("Error", "An error has occured please try again");
+                ErrorService.DisplayMessage("Error", "An error has occured please try again");
                 return;
             }
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Font = Microsoft.Maui.Font;
 
 namespace SocialMediaApp_Sene.Services
 {
@@ -26,6 +27,9 @@ namespace SocialMediaApp_Sene.Services
         [ObservableProperty]
         private bool messageVisible;
 
+        [ObservableProperty]
+        private bool buttonVisible;
+
         public void Okay()
         {
             ShowActivity = false;
@@ -34,23 +38,14 @@ namespace SocialMediaApp_Sene.Services
             Message = "";
         }
 
-        public void DisplayError(string title, string message)
+        public void DisplayMessage(string title, string message, bool button = true)
         {
             Title = title;
             Message = message;
             MessageVisible = true;
             ActivityIndicator = false;
             ShowActivity = true;
-        }
-        public async void DisplaySuccess(string message)
-        {
-            var toast = Toast.Make(message, ToastDuration.Short, 14);
-            await toast.Show();
-
-            // Hide any activity indicators or messages, just in case
-            ShowActivity = false;
-            MessageVisible = false;
-            ActivityIndicator = false;
+            ButtonVisible = button;
         }
     }
 }

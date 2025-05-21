@@ -79,21 +79,21 @@ namespace Socialmedia.MVVM.ViewModel
                 string.IsNullOrWhiteSpace(User.Gender) ||
                 string.IsNullOrWhiteSpace(ConfirmPassword))
             {
-                ErrorService.DisplayError("Error", "Please fill all fields.");
+                ErrorService.DisplayMessage("Error", "Please fill all fields.");
                 return;
             }
 
             //Phone number length
             if (User.PhoneNumber.All(char.IsDigit) && User.PhoneNumber.Length < 11)
             {
-                ErrorService.DisplayError("Error", "Phone number must be exactly 11 digits.");
+                ErrorService.DisplayMessage("Error", "Phone number must be exactly 11 digits.");
                 return;
             }   
 
             //Email format
             if (!User.Email.EndsWith("@gmail.com"))
             {
-                ErrorService.DisplayError("Error", "Email must end with '@gmail.com'.");
+                ErrorService.DisplayMessage("Error", "Email must end with '@gmail.com'.");
                 return;
             }
             //var url= "https://6819ae131ac115563505b710.mockapi.io/Users" //CY
@@ -107,27 +107,27 @@ namespace Socialmedia.MVVM.ViewModel
                 //Username Exist
                 if (users.Any(x => x.Username == User.Username))
                 {
-                     ErrorService.DisplayError("Error", "Username already exists please try another");
+                     ErrorService.DisplayMessage("Error", "Username already exists please try another");
                     return;
                 }
             }
             //Connection Error
             else
             {
-                 ErrorService.DisplayError("Error", "An error has occured please try again");
+                 ErrorService.DisplayMessage("Error", "An error has occured please try again");
             }
 
             //Password format
             if (User.Password.Length < 8 || !User.Password.Any(char.IsDigit) || !User.Password.Any(ch => !char.IsLetterOrDigit(ch)))
             {
-                 ErrorService.DisplayError("Error", "Password must be at least 8 characters long, contain a number, and a special character.");
+                 ErrorService.DisplayMessage("Error", "Password must be at least 8 characters long, contain a number, and a special character.");
                 return;
             }
 
             //Confirm password
             if (User.Password != ConfirmPassword)
             {
-                 ErrorService.DisplayError("Error", "Passwords do not match.");
+                 ErrorService.DisplayMessage("Error", "Passwords do not match.");
                 return;
             }
 
@@ -138,13 +138,13 @@ namespace Socialmedia.MVVM.ViewModel
             //Registration Success
             if(response.IsSuccessStatusCode)
             {
-                 ErrorService.DisplaySuccess("Successfully Registered!");
+                 ErrorService.DisplayMessage("Success","Successfully Registered!",false);
                 Application.Current.MainPage = App.Services.GetRequiredService<LoginPage>(); // Navigate back to Login
             }
             //Connection Error
             else
             {
-                 ErrorService.DisplayError("Error", "An error has occured please try again");
+                 ErrorService.DisplayMessage("Error", "An error has occured please try again");
             }
         }
 

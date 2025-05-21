@@ -6,7 +6,6 @@
              BackgroundColor="#00112e"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False">
-
     <ContentPage.BindingContext>
         <vm:HomePageViewModel />
     </ContentPage.BindingContext>

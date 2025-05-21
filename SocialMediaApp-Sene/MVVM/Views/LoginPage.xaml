@@ -186,7 +186,7 @@
                             IsVisible="{Binding ErrorService.MessageVisible}"
                             Text="{Binding ErrorService.Message}"/>
                         <Button
-                            IsVisible="{Binding ErrorService.MessageVisible}"
+                            IsVisible="{Binding ErrorService.ButtonVisible}"
                             Grid.Row="2"
                             VerticalOptions="End"
                             CornerRadius="50"
