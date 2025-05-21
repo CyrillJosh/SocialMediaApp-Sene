@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
              x:Class="Socialmedia.MVVM.View.LoginPage"
+             xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#0a2961">
-
     <ContentPage.BindingContext>
-        <vm:Login />
+        <vm:Login/>
     </ContentPage.BindingContext>
+
     <ScrollView>
         <Grid>
             <VerticalStackLayout Padding="20" Spacing="20">
@@ -148,7 +148,7 @@
             <Frame
                 BackgroundColor="Black"
                 Opacity=".35"
-                IsVisible="{Binding ErrorActivity.ShowActivity}">
+                IsVisible="{Binding ErrorService.ShowActivity}">
             </Frame>
             <Frame
                 BackgroundColor="White"
@@ -157,12 +157,12 @@
                 WidthRequest="250"
                 HeightRequest="200"
                 Opacity="50"
-                IsVisible="{Binding ErrorActivity.ShowActivity}">
+                IsVisible="{Binding ErrorService.ShowActivity}">
                 <Grid>
                     <ActivityIndicator 
                         WidthRequest="50"
                         Color="#0a2961"
-                        IsRunning="{Binding ErrorActivity.ActivityIndicator}"/>
+                        IsRunning="{Binding ErrorService.ActivityIndicator}"/>
                     <Grid
                         RowDefinitions="*,*,*">
                         <VerticalStackLayout
@@ -172,21 +172,21 @@
                                 VerticalOptions="Start"
                                 HorizontalOptions="Start"
                                 TextColor="Black"
-                                IsVisible="{Binding ErrorActivity.MessageVisible}"
-                                Text="{Binding ErrorActivity.Title}"/>
+                                IsVisible="{Binding ErrorService.MessageVisible}"
+                                Text="{Binding ErrorService.Title}"/>
                             <Rectangle
                                 HeightRequest="2"
                                 BackgroundColor="Gray"
-                                IsVisible="{Binding ErrorActivity.MessageVisible}"
+                                IsVisible="{Binding ErrorService.MessageVisible}"
                                 WidthRequest="100000"/>
                         </VerticalStackLayout>
                         <Label
                             Grid.Row="1"
                             TextColor="Black"
-                            IsVisible="{Binding ErrorActivity.MessageVisible}"
-                            Text="{Binding ErrorActivity.Message}"/>
+                            IsVisible="{Binding ErrorService.MessageVisible}"
+                            Text="{Binding ErrorService.Message}"/>
                         <Button
-                            IsVisible="{Binding ErrorActivity.MessageVisible}"
+                            IsVisible="{Binding ErrorService.MessageVisible}"
                             Grid.Row="2"
                             VerticalOptions="End"
                             CornerRadius="50"

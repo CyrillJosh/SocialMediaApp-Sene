@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Socialmedia.MVVM.View;
 using Socialmedia.MVVM.ViewModel;
 using SocialMediaApp_Sene.MVVM.Models;
+using SocialMediaApp_Sene.Services;
 
 namespace SocialMediaApp_Sene.MVVM.ViewModels
 {
@@ -22,8 +23,13 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
         [ObservableProperty]
         private User currentUser;
+
+        [ObservableProperty]
+        private ErrorService errorService;
         public ICommand CreatePostCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand OkayCommand { get; }
+
         public string fullName => $"{App.CurrentUser.Firstname} {App.CurrentUser.Lastname}";
 
         //To be debugged adding of images or video
@@ -41,11 +47,13 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
         public CreatePostVM()
         {
+            ErrorService = new ErrorService();
             CreatePostCommand = new RelayCommand(async () => await AddPost());
             CancelCommand = new RelayCommand(GoToHomePage);
             //To be debugged adding of images or video
             //AddMediaCommand = new Command(async () => await PickVideoAsync());
             CurrentUser = App.CurrentUser; // You must define this somewhere accessible
+            OkayCommand = new Command(ErrorService.Okay);
         }
 
         //To be debugged adding of images or video
@@ -74,8 +82,14 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
         private async Task AddPost()
         {
-            if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Content))
+            ErrorService.ShowActivity = true;
+            ErrorService.ActivityIndicator = true;
+            ErrorService.MessageVisible = false;
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                ErrorService.DisplayError("Error", "Please enter a Title.");
                 return;
+            }
 
             var newPost = new Post
             {
@@ -91,12 +105,12 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Successfully added.", "OK");
+                ErrorService.DisplaySuccess("Successfully added.");
                 GoToHomePage();
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to create post.", "OK");
+                ErrorService.DisplayError("Error", "Failed to create post.");
             }
         }
     }

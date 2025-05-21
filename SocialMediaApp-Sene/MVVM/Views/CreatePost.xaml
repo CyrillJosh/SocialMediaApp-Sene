@@ -13,7 +13,8 @@
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
+        <Grid>
+            <VerticalStackLayout Padding="20" Spacing="20">
             <!-- Header -->
             <Label Text="CREATE POST"
                    FontAttributes="Bold"
@@ -97,6 +98,65 @@
                         HeightRequest="50"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
+        <!--#region Activity Indicator-->
+        <Frame
+                BackgroundColor="Black"
+                Opacity=".35"
+                IsVisible="{Binding ErrorService.ShowActivity}">
+        </Frame>
+        <Frame
+                BackgroundColor="White"
+                Padding="10"
+                BorderColor="#0a2961"
+                WidthRequest="250"
+                HeightRequest="200"
+                Opacity="50"
+                IsVisible="{Binding ErrorService.ShowActivity}">
+            <Grid>
+                <ActivityIndicator 
+                        WidthRequest="50"
+                        Color="#0a2961"
+                        IsRunning="{Binding ErrorService.ActivityIndicator}"/>
+                <Grid
+                        RowDefinitions="*,*,*">
+                    <VerticalStackLayout
+                            Spacing="7">
+                        <Label
+                                FontSize="Large"
+                                VerticalOptions="Start"
+                                HorizontalOptions="Start"
+                                TextColor="Black"
+                                IsVisible="{Binding ErrorService.MessageVisible}"
+                                Text="{Binding ErrorService.Title}"/>
+                        <Rectangle
+                                HeightRequest="2"
+                                BackgroundColor="Gray"
+                                IsVisible="{Binding ErrorService.MessageVisible}"
+                                WidthRequest="100000"/>
+                    </VerticalStackLayout>
+                    <Label
+                            Grid.Row="1"
+                            TextColor="Black"
+                            IsVisible="{Binding ErrorService.MessageVisible}"
+                            Text="{Binding ErrorService.Message}"/>
+                    <Button
+                            IsVisible="{Binding ErrorService.MessageVisible}"
+                            Grid.Row="2"
+                            VerticalOptions="End"
+                            CornerRadius="50"
+                            Padding="25,0"
+                            HorizontalOptions="End"
+                            TextColor="#0a2961"
+                            FontAttributes="Bold"
+                            BorderColor="#0a2961"
+                            BorderWidth="2"
+                            BackgroundColor="Transparent"
+                            Command="{Binding OkayCommand}"
+                            Text="OK"/>
+                </Grid>
+            </Grid>
+        </Frame>
+        <!--#endregion-->
+        </Grid>
     </ScrollView>
-
 </ContentPage>

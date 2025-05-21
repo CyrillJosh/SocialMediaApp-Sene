@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace SocialMediaApp_Sene.MVVM.Models
+namespace SocialMediaApp_Sene.Services
 {
-    public partial class ErrorActivity : ObservableObject
+    public partial class ErrorService : ObservableObject
     {
         [ObservableProperty]
         private bool activityIndicator;
@@ -24,12 +26,6 @@ namespace SocialMediaApp_Sene.MVVM.Models
         [ObservableProperty]
         private bool messageVisible;
 
-        public ErrorActivity()
-        {
-            ShowActivity = false;
-            MessageVisible = false;
-            ActivityIndicator = false;
-        }
         public void Okay()
         {
             ShowActivity = false;
@@ -38,11 +34,22 @@ namespace SocialMediaApp_Sene.MVVM.Models
             Message = "";
         }
 
-        public void DisplayMessage(string title, string message)
+        public void DisplayError(string title, string message)
         {
             Title = title;
             Message = message;
             MessageVisible = true;
+            ActivityIndicator = false;
+            ShowActivity = true;
+        }
+        public async void DisplaySuccess(string message)
+        {
+            var toast = Toast.Make(message, ToastDuration.Short, 14);
+            await toast.Show();
+
+            // Hide any activity indicators or messages, just in case
+            ShowActivity = false;
+            MessageVisible = false;
             ActivityIndicator = false;
         }
     }

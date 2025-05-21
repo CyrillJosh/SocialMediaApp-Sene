@@ -7,6 +7,4 @@ public partial class CreatePost : ContentPage
 	{
 		InitializeComponent();
     }
-
-  
 }

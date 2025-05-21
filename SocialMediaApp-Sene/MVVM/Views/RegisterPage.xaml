@@ -10,348 +10,402 @@
     <ContentPage.BindingContext>
         <vm:Register />
     </ContentPage.BindingContext>
-    <ScrollView>
-        <Grid>
-            <VerticalStackLayout Padding="20" Spacing="20" Margin="0,0,0,75">
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+            <Grid>
+                <VerticalStackLayout Padding="20" Spacing="20" Margin="0,0,0,75">
 
-                <!-- Top Logo Section -->
-                <Grid HeightRequest="250">
-                    <Ellipse Fill="#f5f5f5"
-                           WidthRequest="500"
-                           Margin="0,-170,0,0"
-                           HeightRequest="400"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Start"/>
-                    <Image Source="logoblack.png"
-                         HeightRequest="170"
-                         Margin="0,-50,0,0"
-                         VerticalOptions="Center"
+                    <!-- Top Logo Section -->
+                    <Grid HeightRequest="250">
+                        <Ellipse Fill="#f5f5f5"
+                               WidthRequest="500"
+                               Margin="0,-170,0,0"
+                               HeightRequest="400"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"/>
+                        <Image Source="logoblack.png"
+                             HeightRequest="170"
+                             Margin="0,-50,0,0"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Login Header -->
+                    <Label Text="SIGN UP"
+                         FontSize="28"
+                         TextColor="White"
+                         Margin="0,0,0,-20"
+                         FontAttributes="Bold"
                          HorizontalOptions="Center"/>
-                </Grid>
 
-                <!-- Login Header -->
-                <Label Text="SIGN UP"
-                     FontSize="28"
-                     TextColor="White"
-                     Margin="0,0,0,-20"
-                     FontAttributes="Bold"
-                     HorizontalOptions="Center"/>
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                         Margin="0,0,0,20">
+                        <Label Text="Already have an account?" TextColor="White"/>
+                        <Label Text=" Login" TextColor="#00D1D1" FontAttributes="Bold">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToLoginCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
+                    <!-- Personal Info -->
+                    <Label Text="Personal Information"
+                            FontSize="20"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"/>
+                    <!--#region Name Entry -->
+                    <Frame BackgroundColor="#f5f5f5"
+                            CornerRadius="40"
+                            Padding="0"
+                            HasShadow="False">
+                        <Grid Padding="15,5"
+                                ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="user.png"
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    VerticalOptions="Center"/>
+                            <Entry Placeholder="First Name"
+                                    Text="{Binding User.Firstname}" 
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    BackgroundColor="Transparent"
+                                    TextColor="Black"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
+                    <!--#region Lastname Entry -->
+                    <Frame BackgroundColor="#f5f5f5"
+                            CornerRadius="40"
+                            Padding="0"
+                            HasShadow="False">
+                        <Grid Padding="15,5"
+                              ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="user.png"
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    VerticalOptions="Center"/>
+                            <Entry Placeholder="Last Name"
+                                    Text="{Binding User.Lastname}" 
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    BackgroundColor="Transparent"
+                                    TextColor="Black"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
 
-                <HorizontalStackLayout HorizontalOptions="Center"
-                                     Margin="0,0,0,20">
-                    <Label Text="Already have an account?" TextColor="White"/>
-                    <Label Text=" Login" TextColor="#00D1D1" FontAttributes="Bold">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateToLoginCommand}"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </HorizontalStackLayout>
-                <!-- Personal Info -->
-                <Label Text="Personal Information"
-                        FontSize="20"
-                        TextColor="White"
-                        FontAttributes="Bold"
-                        HorizontalOptions="Center"/>
-                <!--#region Name Entry -->
-                <Frame BackgroundColor="#f5f5f5"
-                        CornerRadius="40"
-                        Padding="0"
-                        HasShadow="False">
-                    <Grid Padding="15,5"
+                    <!--#region Gender Picker -->
+                    <Frame BackgroundColor="#f5f5f5"
+                           CornerRadius="40"
+                           Padding="0"
+                           HasShadow="False">
+                        <Grid
+                             Padding="15,5"
+                             ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="gender.png"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   VerticalOptions="Center"/>
+                            <Picker
+                                VerticalOptions="Center"
+                                Title="Gender"
+                                TitleColor="LightGrey"
+                                Grid.Column="1"
+                                FontSize="16"
+                                SelectedItem="{Binding User.Gender}">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Female</x:String>
+                                        <x:String>Male</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
+                    <!--#region BirthDate DatePicker-->
+                    <Frame BackgroundColor="#f5f5f5"
+                           CornerRadius="40"
+                           Padding="0"
+                           HasShadow="False">
+                        <Grid
+                             Padding="15,5"
+                             ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="birthdate.png"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   VerticalOptions="Center"/>
+                            <Entry
+                                x:Name="DateEntry"
+                                Grid.Column="1"
+                                FontSize="16"
+                                Text=""
+                                IsReadOnly="True"
+                                Placeholder="Birth Date">
+                            </Entry>
+                            <DatePicker
+                                Grid.Column="1"
+                                MaximumDate="{Binding datenow}"
+                                MinimumDate="01/01/1900"
+                                DateSelected="DateChanged"
+                                TextColor="Transparent"
+                                Background="Transparent"
+                                VerticalOptions="Center"
+                                FontSize="16">
+                            </DatePicker>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
+                    <!--#region Email -->
+                    <Frame BackgroundColor="#f5f5f5"
+                           CornerRadius="40"
+                           Padding="0"
+                           HasShadow="False">
+                        <Grid
+                            Padding="15,5"
                             ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="user.png"
-                                WidthRequest="24"
-                                HeightRequest="24"
-                                VerticalOptions="Center"/>
-                        <Entry Placeholder="First Name"
-                                Text="{Binding User.Firstname}" 
-                                Grid.Column="1"
-                                FontSize="16"
-                                BackgroundColor="Transparent"
-                                TextColor="Black"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-                <!--#region Lastname Entry -->
-                <Frame BackgroundColor="#f5f5f5"
-                        CornerRadius="40"
-                        Padding="0"
-                        HasShadow="False">
-                    <Grid Padding="15,5"
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="mail.png"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   VerticalOptions="Center"/>
+                            <Entry Placeholder="Email Address"
+                                   Text="{Binding User.Email}" 
+                                   Grid.Column="1"
+                                   Keyboard="Email"
+                                   FontSize="16"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
+                    <!--#region PhoneNumber -->
+                    <Frame BackgroundColor="#f5f5f5"
+                           CornerRadius="40"
+                           Padding="0"
+                           HasShadow="False">
+                        <Grid
+                            Padding="15,5"
+                            ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="phone.png"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   VerticalOptions="Center"/>
+                            <Entry Placeholder="Phone Number"
+                                   Text="{Binding User.PhoneNumber}" 
+                                   Keyboard="Telephone"
+                                   MaxLength="11"
+                                   Grid.Column="1"
+                                   FontSize="16"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
+                    <!-- Account Details -->
+                    <Label Text="Account"
+                           FontSize="20"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <!--#region Username Entry -->
+                    <!-- Username Entry -->
+                    <Frame BackgroundColor="#f5f5f5"
+                     CornerRadius="40"
+                     Padding="0"
+                     HasShadow="False">
+                        <Grid
+                          Padding="15,5"
                           ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="user.png"
-                                WidthRequest="24"
-                                HeightRequest="24"
-                                VerticalOptions="Center"/>
-                        <Entry Placeholder="Last Name"
-                                Text="{Binding User.Lastname}" 
-                                Grid.Column="1"
-                                FontSize="16"
-                                BackgroundColor="Transparent"
-                                TextColor="Black"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="user.png"
+                             WidthRequest="24"
+                             HeightRequest="24"
+                             VerticalOptions="Center"/>
+                            <Entry Placeholder="Username"
+                             Text="{Binding User.Username}" 
+                             Grid.Column="1"
+                             FontSize="16"
+                             BackgroundColor="Transparent"
+                             TextColor="Black"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
 
-                <!--#region Gender Picker -->
-                <Frame BackgroundColor="#f5f5f5"
-                       CornerRadius="40"
-                       Padding="0"
-                       HasShadow="False">
-                    <Grid
-                         Padding="15,5"
-                         ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="gender.png"
-                               WidthRequest="24"
-                               HeightRequest="24"
-                               VerticalOptions="Center"/>
-                        <Picker
-                            VerticalOptions="Center"
-                            Title="Gender"
-                            TitleColor="LightGrey"
-                            Grid.Column="1"
-                            FontSize="16"
-                            SelectedItem="{Binding User.Gender}">
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>Female</x:String>
-                                    <x:String>Male</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-                <!--#region BirthDate DatePicker-->
-                <Frame BackgroundColor="#f5f5f5"
-                       CornerRadius="40"
-                       Padding="0"
-                       HasShadow="False">
-                    <Grid
-                         Padding="15,5"
-                         ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="birthdate.png"
-                               WidthRequest="24"
-                               HeightRequest="24"
-                               VerticalOptions="Center"/>
-                        <Entry
-                            x:Name="DateEntry"
-                            Grid.Column="1"
-                            FontSize="16"
-                            Text=""
-                            IsReadOnly="True"
-                            Placeholder="Birth Date">
-                        </Entry>
-                        <DatePicker
-                            Grid.Column="1"
-                            MaximumDate="{Binding datenow}"
-                            MinimumDate="01/01/1900"
-                            DateSelected="DateChanged"
-                            TextColor="Transparent"
-                            Background="Transparent"
-                            VerticalOptions="Center"
-                            FontSize="16">
-                        </DatePicker>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-                <!--#region Email -->
-                <Frame BackgroundColor="#f5f5f5"
-                       CornerRadius="40"
-                       Padding="0"
-                       HasShadow="False">
-                    <Grid
-                        Padding="15,5"
-                        ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="mail.png"
-                               WidthRequest="24"
-                               HeightRequest="24"
-                               VerticalOptions="Center"/>
-                        <Entry Placeholder="Email Address"
-                               Text="{Binding User.Email}" 
-                               Grid.Column="1"
-                               Keyboard="Email"
-                               FontSize="16"
-                               BackgroundColor="Transparent"
-                               TextColor="Black"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-                <!--#region PhoneNumber -->
-                <Frame BackgroundColor="#f5f5f5"
-                       CornerRadius="40"
-                       Padding="0"
-                       HasShadow="False">
-                    <Grid
-                        Padding="15,5"
-                        ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="phone.png"
-                               WidthRequest="24"
-                               HeightRequest="24"
-                               VerticalOptions="Center"/>
-                        <Entry Placeholder="Phone Number"
-                               Text="{Binding User.PhoneNumber}" 
-                               Keyboard="Telephone"
-                               MaxLength="11"
-                               Grid.Column="1"
-                               FontSize="16"
-                               BackgroundColor="Transparent"
-                               TextColor="Black"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-                <!-- Account Details -->
-                <Label Text="Account"
-                       FontSize="20"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"/>
-                <!--#region Username Entry -->
-                <!-- Username Entry -->
-                <Frame BackgroundColor="#f5f5f5"
-                 CornerRadius="40"
-                 Padding="0"
-                 HasShadow="False">
-                    <Grid
-                      Padding="15,5"
-                      ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="user.png"
-                         WidthRequest="24"
-                         HeightRequest="24"
-                         VerticalOptions="Center"/>
-                        <Entry Placeholder="Username"
-                         Text="{Binding User.Username}" 
-                         Grid.Column="1"
-                         FontSize="16"
-                         BackgroundColor="Transparent"
-                         TextColor="Black"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
+                    <!--#region Password Entry -->
+                    <Frame BackgroundColor="#f5f5f5"
+                     CornerRadius="40"
+                     Padding="0"
+                     HasShadow="False">
+                        <Grid
+                          Padding="15,5"
+                          ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="password.png"
+                             WidthRequest="24"
+                             HeightRequest="24"
+                             VerticalOptions="Center"/>
+                            <Entry Placeholder="Password"
+                             IsPassword="{Binding IsPasswordHidden}"
+                             Grid.Column="1"
+                             FontSize="16"
+                             Text="{Binding User.Password}"
+                             BackgroundColor="Transparent"
+                             TextColor="Black"/>
+                            <ImageButton Source="{Binding EyeIcon}"
+                             WidthRequest="24"
+                             HeightRequest="24"
+                             Grid.Column="2"
+                             Command="{Binding TogglePasswordCommand}"
+                             VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
 
-                <!--#region Password Entry -->
-                <Frame BackgroundColor="#f5f5f5"
-                 CornerRadius="40"
-                 Padding="0"
-                 HasShadow="False">
-                    <Grid
-                      Padding="15,5"
-                      ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="password.png"
-                         WidthRequest="24"
-                         HeightRequest="24"
-                         VerticalOptions="Center"/>
-                        <Entry Placeholder="Password"
-                         IsPassword="{Binding IsPasswordHidden}"
-                         Grid.Column="1"
-                         FontSize="16"
-                         Text="{Binding User.Password}"
-                         BackgroundColor="Transparent"
-                         TextColor="Black"/>
-                        <ImageButton Source="{Binding EyeIcon}"
-                         WidthRequest="24"
-                         HeightRequest="24"
-                         Grid.Column="2"
-                         Command="{Binding TogglePasswordCommand}"
-                         VerticalOptions="Center"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-       
-                <!--#region Confirm Pass Entry -->
-                <Frame BackgroundColor="#f5f5f5"
-                         CornerRadius="40"
-                         Padding="0"
-                         HasShadow="False">
-                    <Grid
-                      Padding="15,5"
-                      ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="confirmpass.png"
-                         WidthRequest="24"
-                         HeightRequest="24"
-                         VerticalOptions="Center"/>
-                        <Entry Placeholder="Confirm Password"
-                         IsPassword="{Binding IsConfirmPasswordHidden}"
-                         Grid.Column="1"
-                         FontSize="16"
-                         Text="{Binding ConfirmPassword}"
-                         BackgroundColor="Transparent"
-                         TextColor="Black"/>
-                        <ImageButton Source="{Binding ConfirmEyeIcon}"
-                         WidthRequest="24"
-                         HeightRequest="24"
-                         Grid.Column="2"
-                         Command="{Binding ToggleConfirmPasswordCommand}"
-                         VerticalOptions="Center"/>
-                    </Grid>
-                </Frame>
-                <!--#endregion-->
-            
-                <!--#region Login Button -->
-                <HorizontalStackLayout
-                  HorizontalOptions="End"
-                  Margin="0,5">
-                    <Button Text="Register"
-                          FontSize="18"
-                          BackgroundColor="#00C3C9"
-                          TextColor="White"
-                          Command="{Binding RegisterCommand}" 
-                          CornerRadius="25"
-                          HeightRequest="50">
-                        <Button.ImageSource>
-                            <FontImageSource Glyph="⮕" Color="White"/>
-                        </Button.ImageSource>
-                    </Button>
-                </HorizontalStackLayout>
-                <!--#endregion-->
-            </VerticalStackLayout>
+                    <!--#region Confirm Pass Entry -->
+                    <Frame BackgroundColor="#f5f5f5"
+                             CornerRadius="40"
+                             Padding="0"
+                             HasShadow="False">
+                        <Grid
+                          Padding="15,5"
+                          ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="confirmpass.png"
+                             WidthRequest="24"
+                             HeightRequest="24"
+                             VerticalOptions="Center"/>
+                            <Entry Placeholder="Confirm Password"
+                             IsPassword="{Binding IsConfirmPasswordHidden}"
+                             Grid.Column="1"
+                             FontSize="16"
+                             Text="{Binding ConfirmPassword}"
+                             BackgroundColor="Transparent"
+                             TextColor="Black"/>
+                            <ImageButton Source="{Binding ConfirmEyeIcon}"
+                             WidthRequest="24"
+                             HeightRequest="24"
+                             Grid.Column="2"
+                             Command="{Binding ToggleConfirmPasswordCommand}"
+                             VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                    <!--#endregion-->
+
+                    <!--#region Login Button -->
+                    <HorizontalStackLayout
+                      HorizontalOptions="End"
+                      Margin="0,5">
+                        <Button Text="Register"
+                              FontSize="18"
+                              BackgroundColor="#00C3C9"
+                              TextColor="White"
+                              Command="{Binding RegisterCommand}" 
+                              CornerRadius="25"
+                              HeightRequest="50">
+                            <Button.ImageSource>
+                                <FontImageSource Glyph="⮕" Color="White"/>
+                            </Button.ImageSource>
+                        </Button>
+                    </HorizontalStackLayout>
+                    <!--#endregion-->
+                </VerticalStackLayout>
                 <Label
-                  Margin="10"
-                  FontSize="10"
-                  VerticalOptions="End"
-                  HorizontalOptions="Center"
-                  Text="Odato - Pua - Rosell - Casas"
-                  TextColor="#e2e1df"/>
-        </Grid>
-    </ScrollView>
+                    Margin="10"
+                    FontSize="10"
+                    VerticalOptions="End"
+                    HorizontalOptions="Center"
+                    Text="Odato - Pua - Rosell - Casas"
+                    TextColor="#e2e1df"/>
+
+            </Grid>
+        </ScrollView>
+        <!-- Overlay Mask -->
+        <Frame BackgroundColor="Black"
+           Opacity="0.35"
+           IsVisible="{Binding ErrorService.ShowActivity}"
+           AbsoluteLayout.LayoutBounds="0,0,1,1"
+           AbsoluteLayout.LayoutFlags="All" />
+
+        <!-- Centered Activity Panel -->
+        <Frame AbsoluteLayout.LayoutBounds="0.5,0.5,250,200"
+           AbsoluteLayout.LayoutFlags="PositionProportional"
+           BackgroundColor="White"
+           Padding="10"
+           BorderColor="#0a2961"
+           IsVisible="{Binding ErrorService.ShowActivity}">
+            <Grid>
+                <ActivityIndicator IsRunning="{Binding ErrorService.ActivityIndicator}"
+                               WidthRequest="50"
+                               Color="#0a2961"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="{Binding ErrorService.ActivityIndicator}" />
+
+                <Grid RowDefinitions="*,*,*"
+                  IsVisible="{Binding ErrorService.MessageVisible}">
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="{Binding ErrorService.Title}"
+                           FontSize="Large"
+                           TextColor="Black" />
+                        <Rectangle HeightRequest="2"
+                               BackgroundColor="Gray"
+                               WidthRequest="100000"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Row="1"
+                       Text="{Binding ErrorService.Message}"
+                       TextColor="Black" />
+                    <Button Text="OK"
+                        Grid.Row="2"
+                        Command="{Binding OkayCommand}"
+                        TextColor="#0a2961"
+                        FontAttributes="Bold"
+                        BorderColor="#0a2961"
+                        BorderWidth="2"
+                        BackgroundColor="Transparent"
+                        CornerRadius="50"
+                        Padding="25,0"
+                        HorizontalOptions="End"
+                        VerticalOptions="End" />
+                </Grid>
+            </Grid>
+        </Frame>
+    </AbsoluteLayout>
     <!--#region To be deleted-->
     <!--<ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">

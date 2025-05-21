@@ -7,6 +7,7 @@ using SocialMediaApp_Sene;
 using System.Diagnostics;
 using SocialMediaApp_Sene.MVVM.Models;
 using Newtonsoft.Json;
+using SocialMediaApp_Sene.Services;
 
 namespace Socialmedia.MVVM.ViewModel
 {
@@ -23,7 +24,9 @@ namespace Socialmedia.MVVM.ViewModel
         private string eyeIcon = "view.png";
 
         [ObservableProperty]
-        private ErrorActivity errorActivity = new ErrorActivity();
+        private ErrorService errorService;
+
+
         //Commands
         public ICommand LoginCommand { get; }
         public ICommand TogglePasswordCommand { get; }
@@ -37,21 +40,22 @@ namespace Socialmedia.MVVM.ViewModel
         public Login()
         {
             _client = new HttpClient();
+            ErrorService = new ErrorService();
             LoginCommand = new Command(LoginUser);
             TogglePasswordCommand = new Command(TogglePasswordVisibility);
             NavigateToRegisterCommand = new Command(NavigateToRegister);
-            OkayCommand = new Command(ErrorActivity.Okay);
+            OkayCommand = new Command(ErrorService.Okay);
         }
 
         private async void LoginUser()
         {
-            ErrorActivity.ShowActivity = true;
-            ErrorActivity.ActivityIndicator = true;
-            ErrorActivity.MessageVisible = false;
-
+            ErrorService.ShowActivity = true;
+            ErrorService.ActivityIndicator = true;
+            ErrorService.MessageVisible = false;
+            //ErrorService.IsSuccessful = true;
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
-                ErrorActivity.DisplayMessage("Error", "Please enter your username and password.");
+                ErrorService.DisplayError("Error", "Please enter your username and password.");
                 return;
             }
 
@@ -79,21 +83,22 @@ namespace Socialmedia.MVVM.ViewModel
                 if (matchedUser != null)
                 {
                     App.CurrentUser = matchedUser; // ✅ Assign the logged-in user globally
-
-                    ErrorActivity.DisplayMessage("Success", "Login successful!");
+                    //ErrorService.IsSuccessful = false;
+                    ErrorService.DisplaySuccess("Login successful!");
+                    await Task.Delay(500);
                     Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
                 }
                 //Invalid
                 else
                 {
-                    ErrorActivity.DisplayMessage("Error", "Invalid username or password.");
-                    user.Password = "";
+                    ErrorService.DisplayError("Error", "Invalid username or password.");
+                    User.Password = "";
                     return;
                 }
             }
             else
             {
-                //iErrorHandlingService.DisplayMessage("Error", "An error has occured please try again");
+                ErrorService.DisplayError("Error", "An error has occured please try again");
                 return;
             }
         }

@@ -10,6 +10,7 @@ using Socialmedia.MVVM.View;
 using SocialMediaApp_Sene.MVVM.Models;
 using Newtonsoft.Json;
 using System.Text;
+using SocialMediaApp_Sene.Services;
 
 namespace Socialmedia.MVVM.ViewModel
 {
@@ -36,6 +37,9 @@ namespace Socialmedia.MVVM.ViewModel
         [ObservableProperty]
         private string confirmEyeIcon = "view.png";
 
+        [ObservableProperty]
+        private ErrorService errorService;
+
         //Client
         private readonly HttpClient _client;
 
@@ -45,10 +49,14 @@ namespace Socialmedia.MVVM.ViewModel
         public ICommand NavigateToLoginCommand { get; }
         public ICommand TogglePasswordCommand { get; }
         public ICommand OpenDatePickerCommand { get; }
+        public ICommand OkayCommand { get; }
+
         //Constructor
         public Register()
         {
             _client = new HttpClient();
+            ErrorService = new ErrorService();
+            OkayCommand = new Command(ErrorService.Okay);
             RegisterCommand = new RelayCommand(Registers);
             NavigateToLoginCommand = new RelayCommand(NavigateToLogin);
             TogglePasswordCommand = new RelayCommand(TogglePasswordVisibility);
@@ -57,6 +65,9 @@ namespace Socialmedia.MVVM.ViewModel
 
         private async void Registers()
         {
+            ErrorService.ShowActivity = true;
+            ErrorService.ActivityIndicator = true;
+            ErrorService.MessageVisible = false;
             //Empty
             if (string.IsNullOrWhiteSpace(User.Firstname) ||
                 string.IsNullOrWhiteSpace(User.Lastname) ||
@@ -68,21 +79,21 @@ namespace Socialmedia.MVVM.ViewModel
                 string.IsNullOrWhiteSpace(User.Gender) ||
                 string.IsNullOrWhiteSpace(ConfirmPassword))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please fill all fields.", "OK");
+                ErrorService.DisplayError("Error", "Please fill all fields.");
                 return;
             }
 
             //Phone number length
             if (User.PhoneNumber.All(char.IsDigit) && User.PhoneNumber.Length < 11)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Phone number must be exactly 11 digits.", "OK");
+                ErrorService.DisplayError("Error", "Phone number must be exactly 11 digits.");
                 return;
             }   
 
             //Email format
             if (!User.Email.EndsWith("@gmail.com"))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Email must end with '@gmail.com'.", "OK");
+                ErrorService.DisplayError("Error", "Email must end with '@gmail.com'.");
                 return;
             }
             //var url= "https://6819ae131ac115563505b710.mockapi.io/Users" //CY
@@ -96,27 +107,27 @@ namespace Socialmedia.MVVM.ViewModel
                 //Username Exist
                 if (users.Any(x => x.Username == User.Username))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Username already exists please try another", "OK");
+                     ErrorService.DisplayError("Error", "Username already exists please try another");
                     return;
                 }
             }
             //Connection Error
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
+                 ErrorService.DisplayError("Error", "An error has occured please try again");
             }
 
             //Password format
             if (User.Password.Length < 8 || !User.Password.Any(char.IsDigit) || !User.Password.Any(ch => !char.IsLetterOrDigit(ch)))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Password must be at least 8 characters long, contain a number, and a special character.", "OK");
+                 ErrorService.DisplayError("Error", "Password must be at least 8 characters long, contain a number, and a special character.");
                 return;
             }
 
             //Confirm password
             if (User.Password != ConfirmPassword)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Passwords do not match.", "OK");
+                 ErrorService.DisplayError("Error", "Passwords do not match.");
                 return;
             }
 
@@ -127,17 +138,15 @@ namespace Socialmedia.MVVM.ViewModel
             //Registration Success
             if(response.IsSuccessStatusCode)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Successfully Registered!", "OK");
+                 ErrorService.DisplaySuccess("Successfully Registered!");
                 Application.Current.MainPage = App.Services.GetRequiredService<LoginPage>(); // Navigate back to Login
             }
             //Connection Error
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "An error has occured please try again", "OK");
+                 ErrorService.DisplayError("Error", "An error has occured please try again");
             }
-
         }
-
 
         //Custom Methods
         private void NavigateToLogin()
