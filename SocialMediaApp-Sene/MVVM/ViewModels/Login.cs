@@ -23,22 +23,7 @@ namespace Socialmedia.MVVM.ViewModel
         private string eyeIcon = "view.png";
 
         [ObservableProperty]
-        private string errorMessage;
-
-        //[ObservableProperty]
-        //private bool activityIndicator;
-
-        //[ObservableProperty]
-        //private bool showActivity;
-
-        //[ObservableProperty]
-        //private string title;
-
-        //[ObservableProperty]
-        //private string message;
-
-        //[ObservableProperty]
-        //private bool messageVisible;
+        private ErrorActivity errorActivity = new ErrorActivity();
 
         //Commands
         public ICommand LoginCommand { get; }
@@ -57,18 +42,19 @@ namespace Socialmedia.MVVM.ViewModel
             LoginCommand = new Command(LoginUser);
             TogglePasswordCommand = new Command(TogglePasswordVisibility);
             NavigateToRegisterCommand = new Command(NavigateToRegister);
-            OkayCommand = new Command(Okay);
+            OkayCommand = new Command(ErrorActivity.Okay);
         }
 
         private async void LoginUser()
         {
-            ShowActivity = true;
-            ActivityIndicator = true;
-            MessageVisible = false;
+            ErrorActivity.ShowActivity = true;
+            ErrorActivity.ActivityIndicator = true;
+            ErrorActivity.MessageVisible = false;
             //Empty
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
-                DisplayError("Error", "Please enter your username and password.");
+                ErrorActivity.DisplayMessage("Error", "Please enter your username and password.");
+                return;
             }
 
 
@@ -84,23 +70,22 @@ namespace Socialmedia.MVVM.ViewModel
                 //If exist -- Needs Update -- Check if user with username and password exist in the users list
                 if (users.Any(x=> x.Username == User.Username && x.Password == User.Password))
                 {
-                    ActivityIndicator = false;
-                    await Application.Current.MainPage.DisplayAlert("Success", "Login successful!", "OK");
+                    //ActivityIndicator = false;
+                    ErrorActivity.DisplayMessage("Success", "Login successful!");
                     Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
                 }
                 //Invalid
                 else
                 {
-                    DisplayError("Error", "Invalid username or password.");
-
-                    //ActivityIndicator = false;
-                    //await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");
+                    ErrorActivity.DisplayMessage("Error", "Invalid username or password.");
+                    user.Password = "";
+                    return;
                 }
             }
             else
             {
-                //ActivityIndicator = false;
-                DisplayError("Error", "An error has occured please try again");
+                ErrorActivity.DisplayMessage("Error", "An error has occured please try again");
+                return;
             }
         }
 
@@ -115,22 +100,6 @@ namespace Socialmedia.MVVM.ViewModel
             Application.Current.MainPage = App.Services.GetRequiredService<RegisterPage>();
         }
 
-        private void Okay()
-        {
-            ShowActivity = false;
-            MessageVisible = false;
-            Title = "";
-            Message = "";
-            ActivityIndicator = false;
-            return;
-        }
-
-        private void DisplayError(string title, string message)
-        {
-            MessageVisible = true;
-            Title = title;
-            Message = message;
-            ActivityIndicator = false;
-        }
+        
     }
 }

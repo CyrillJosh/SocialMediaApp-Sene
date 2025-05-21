@@ -7,38 +7,19 @@ using System.Threading.Tasks;
 
 namespace SocialMediaApp_Sene.Services
 {
-    public partial class ErrorHandlingService : ObservableObject
+    public partial class ErrorHandlingService : IErrorHandlingService
     {
-        [ObservableProperty]
-        private bool activityIndicator;
+        public event Action<string, string>? OnError;
+        public event Action? OnClear;
 
-        [ObservableProperty]
-        private bool showActivity;
-
-        [ObservableProperty]
-        private string title;
-
-        [ObservableProperty]
-        private string message;
-
-        [ObservableProperty]
-        private bool messageVisible;
-        private void Okay()
+        public void ShowError(string title, string message)
         {
-            ShowActivity = false;
-            MessageVisible = false;
-            Title = "";
-            Message = "";
-            ActivityIndicator = false;
-            return;
+            OnError?.Invoke(title, message);
         }
 
-        private void DisplayError(string title, string message)
+        public void Clear()
         {
-            MessageVisible = true;
-            Title = title;
-            Message = message;
-            ActivityIndicator = false;
+            OnClear?.Invoke();
         }
     }
 }

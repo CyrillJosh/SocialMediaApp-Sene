@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Socialmedia.MVVM.View;
 using SocialMediaApp_Sene.MVVM.Views;
+using SocialMediaApp_Sene.Services;
 
 namespace SocialMediaApp_Sene
 {
@@ -26,6 +27,8 @@ namespace SocialMediaApp_Sene
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<IErrorHandlingService, ErrorHandlingService>();
+
             builder.Services.AddSingleton<Splash>();
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<RegisterPage>();

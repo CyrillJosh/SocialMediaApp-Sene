@@ -148,7 +148,7 @@
             <Frame
                 BackgroundColor="Black"
                 Opacity=".35"
-                IsVisible="{Binding ShowActivity}">
+                IsVisible="{Binding ErrorActivity.ShowActivity}">
             </Frame>
             <Frame
                 BackgroundColor="White"
@@ -157,12 +157,12 @@
                 WidthRequest="250"
                 HeightRequest="200"
                 Opacity="50"
-                IsVisible="{Binding ShowActivity}">
+                IsVisible="{Binding ErrorActivity.ShowActivity}">
                 <Grid>
                     <ActivityIndicator 
                         WidthRequest="50"
                         Color="#0a2961"
-                        IsRunning="{Binding ActivityIndicator}"/>
+                        IsRunning="{Binding ErrorActivity.ActivityIndicator}"/>
                     <Grid
                         RowDefinitions="*,*,*">
                         <VerticalStackLayout
@@ -172,7 +172,7 @@
                                 VerticalOptions="Start"
                                 HorizontalOptions="Start"
                                 TextColor="Black"
-                                IsVisible="{Binding MessageVisible}"
+                                IsVisible="{Binding ErrorActivity.MessageVisible}"
                                 Text="{Binding Title}"/>
                             <Rectangle
                                 HeightRequest="2"
@@ -182,10 +182,10 @@
                         <Label
                             Grid.Row="1"
                             TextColor="Black"
-                            IsVisible="{Binding MessageVisible}"
+                            IsVisible="{Binding ErrorActivity.MessageVisible}"
                             Text="{Binding Message}"/>
                         <Button
-                            IsVisible="{Binding MessageVisible}"
+                            IsVisible="{Binding ErrorActivity.MessageVisible}"
                             Grid.Row="2"
                             VerticalOptions="End"
                             CornerRadius="50"
