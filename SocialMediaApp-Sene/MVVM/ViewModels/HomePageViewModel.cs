@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using SocialMediaApp_Sene;
 using SocialMediaApp_Sene.MVVM.Models;
+using SocialMediaApp_Sene.MVVM.ViewModels;
 using SocialMediaApp_Sene.MVVM.Views;
+using SocialMediaApp_Sene.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -15,9 +17,12 @@ namespace Socialmedia.MVVM.ViewModel
         private readonly HttpClient _client;
 
         [ObservableProperty]
-        private ObservableCollection<Post> posts = new ObservableCollection<Post>();
+        private ObservableCollection<PostVM> posts = new ObservableCollection<PostVM>();
 
-        private List<User> _allUsers;
+        [ObservableProperty]
+        private ErrorService errorServices;
+
+        private List<User> _allUsers = new();
 
         //Commands
         public ICommand ToggleFlyoutCommand { get; }
@@ -28,23 +33,34 @@ namespace Socialmedia.MVVM.ViewModel
         public HomePageViewModel()
         {
             NavigateToAddPostCommand = new RelayCommand(NavigateToAddPost);
+            ErrorServices = new ErrorService();
             _client = new HttpClient();
             LoadPosts();
         }
 
+        //Load posts
         public async Task LoadPosts()
         {
+            //clear
             Posts.Clear();
-            //var response = await httpClient.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Post"); //Cy
-            var postResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Post");
-            var userResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Users");
+            var postResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Post"); //Cy
+            var userResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Post"); //Cy
+            //var postResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Post"); //CHARLES
+            //var userResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Users"); //CHARLES
 
+            //Get User
             if (userResponse.IsSuccessStatusCode)
             {
                 var userJson = await userResponse.Content.ReadAsStringAsync();
                 _allUsers = JsonConvert.DeserializeObject<List<User>>(userJson);
             }
-
+            //unsuccessful
+            else
+            {
+                ErrorServices.DisplayMessage("Error", "An error has occured please try again");
+                return;
+            }
+            //Get Posts
             if (postResponse.IsSuccessStatusCode)
             {
                 var postJson = await postResponse.Content.ReadAsStringAsync();
@@ -53,8 +69,11 @@ namespace Socialmedia.MVVM.ViewModel
                 foreach (var addedPost in listPosts)
                 {
                     var user = _allUsers.FirstOrDefault(u => u.id == addedPost.UserId);
-                    addedPost.AuthorName = user != null ? $"{user.Firstname} {user.Lastname}" : "Unknown";
-                    Posts.Add(addedPost);
+                    Posts.Add(new PostVM()
+                    {
+                        User = user,
+                        Post = addedPost
+                    });
                 }
             }
         }

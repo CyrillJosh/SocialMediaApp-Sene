@@ -34,9 +34,17 @@
                                    Margin="0,10"
                                    HasShadow="False">
                                 <VerticalStackLayout Spacing="10">
-                                    <Label Text="{Binding AuthorName}"
-                                           FontSize="14"
-                                           TextColor="White" />
+                                    <Label
+                                        FontSize="14"
+                                        TextColor="White" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding User.Firstname}, " />
+                                                <Span Text=" "/>
+                                                <Span Text="{Binding User.Lastname}, " />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
                                     <Label Text="{Binding Title}"
                                            FontSize="18"
                                            FontAttributes="Bold"

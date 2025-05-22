@@ -24,7 +24,7 @@ namespace Socialmedia.MVVM.ViewModel
         private string eyeIcon = "view.png";
 
         [ObservableProperty]
-        private ErrorService errorService;
+        private ErrorService errorServices;
 
 
         //Commands
@@ -40,79 +40,76 @@ namespace Socialmedia.MVVM.ViewModel
         public Login()
         {
             _client = new HttpClient();
-            ErrorService = new ErrorService();
+            ErrorServices = new ErrorService();
             LoginCommand = new Command(LoginUser);
             TogglePasswordCommand = new Command(TogglePasswordVisibility);
             NavigateToRegisterCommand = new Command(NavigateToRegister);
-            OkayCommand = new Command(ErrorService.Okay);
+            OkayCommand = new Command(ErrorServices.Okay);
         }
 
+        //login
         private async void LoginUser()
         {
-            ErrorService.ShowActivity = true;
-            ErrorService.ActivityIndicator = true;
-            ErrorService.MessageVisible = false;
-            ErrorService.ButtonVisible = false;
-            //ErrorService.IsSuccessful = true;
+            //Set activity
+            ErrorServices.ShowActivity = true;
+            ErrorServices.ActivityIndicator = true;
+            ErrorServices.MessageVisible = false;
+            ErrorServices.ButtonVisible = false;
+
+            //Check empty fields
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
             {
-                ErrorService.DisplayMessage("Error", "Please enter your username and password.");
+                ErrorServices.DisplayMessage("Error", "Please enter your username and password.");
                 return;
             }
 
 
             //MockAPI
-            //var url = "https://6819ae131ac115563505b710.mockapi.io/Users"; //CY
-            var url = "https://682527810f0188d7e72c2016.mockapi.io/Users";
+            var url = "https://6819ae131ac115563505b710.mockapi.io/Users"; //CY
+            //var url = "https://682527810f0188d7e72c2016.mockapi.io/Users"; //CHARLES
             HttpResponseMessage response = await _client.GetAsync(url);
 
+            //response
             if (response.IsSuccessStatusCode)
             {
                 string jsonstring = await response.Content.ReadAsStringAsync();
                 List<User> users = JsonConvert.DeserializeObject<List<User>>(jsonstring);
                 var matchedUser = users.FirstOrDefault(x => x.Username == User.Username && x.Password == User.Password);
 
-                //If exist -- Needs Update -- Check if user with username and password exist in the users list
-                //if (users.Any(x => x.Username == User.Username && x.Password == User.Password))
-                //{
-                //    //ActivityIndicator = false;
-                //    App.CurrentUser =
-
-                //    iErrorHandlingService.DisplayMessage("Success", "Login successful!");
-                //    Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
-                //}
                 if (matchedUser != null)
                 {
-                    //ErrorService.IsSuccessful = false;
-                    ErrorService.DisplayMessage("Success","Login successful!",false);
+                    ErrorServices.DisplayMessage("Success","Login successful!",false);
 
                     await Task.Delay(1000);
                     UserSession.CurrentUser = matchedUser;
 
                     Application.Current.MainPage = App.Services.GetRequiredService<AppShell>();
-                    ErrorService.SetAllFalse();
+                    ErrorServices.Okay();
                 }
                 //Invalid
                 else
                 {
-                    ErrorService.DisplayMessage("Error", "Invalid username or password.");
+                    ErrorServices.DisplayMessage("Error", "Invalid username or password.");
                     User.Password = string.Empty;
                     return;
                 }
             }
+            //unsuccessful
             else
             {
-                ErrorService.DisplayMessage("Error", "An error has occured please try again");
+                ErrorServices.DisplayMessage("Error", "An error has occured please try again");
                 return;
             }
         }
 
+        //Password
         private void TogglePasswordVisibility()
         {
             EyeIcon = IsPasswordHidden ? "hide.png" : "view.png"; // Fix: Correct icon toggle
             IsPasswordHidden = !IsPasswordHidden;
         }
 
+        //Go to registration
         private void NavigateToRegister()
         {
             Application.Current.MainPage = App.Services.GetRequiredService<RegisterPage>();
