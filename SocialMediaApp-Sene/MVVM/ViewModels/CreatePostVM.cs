@@ -43,9 +43,10 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
             OkayCommand = new Command(ErrorService.Okay);
         }
 
+        //Return to HomePage
         private async void GoToHomePage()
         {
-            var homepage = App.Services.GetRequiredService<AppShell>();
+            var homepage = App.Services.GetRequiredService<Homepage>();
             var vm = homepage.BindingContext as HomePageViewModel;
             if (vm != null)
                 await vm.LoadPosts(); // reload latest posts
@@ -53,11 +54,13 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
             Application.Current.MainPage = homepage;
         }
 
+        //AddPost
         private async Task AddPost()
         {
             ErrorService.ShowActivity = true;
             ErrorService.ActivityIndicator = true;
             ErrorService.MessageVisible = false;
+            ErrorService.ButtonVisible = false;
             if (string.IsNullOrWhiteSpace(Title))
             {
                 ErrorService.DisplayMessage("Error", "Please enter a Title.");
@@ -68,10 +71,12 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
                 Title = Title,
                 Content = Content,
                 UserId = UserSession.CurrentUser.id,
+                DateCreated = DateTime.Now
             };
             var json = JsonConvert.SerializeObject(newPost);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("https://682527810f0188d7e72c2016.mockapi.io/Post", content);
+            var response = await _client.PostAsync("https://6819ae131ac115563505b710.mockapi.io/Posts", content);//CY
+            //var response = await _client.PostAsync("https://682527810f0188d7e72c2016.mockapi.io/Posts", content);//CHARLES
             if (response.IsSuccessStatusCode)
             {
                 ErrorService.DisplayMessage("Success", "Successfully Registered!", false);

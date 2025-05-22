@@ -43,8 +43,8 @@ namespace Socialmedia.MVVM.ViewModel
         {
             //clear
             Posts.Clear();
-            var postResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Post"); //Cy
-            var userResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Post"); //Cy
+            var postResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Posts"); //Cy
+            var userResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Users"); //Cy
             //var postResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Post"); //CHARLES
             //var userResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Users"); //CHARLES
 

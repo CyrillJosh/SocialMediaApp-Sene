@@ -90,7 +90,6 @@ namespace Socialmedia.MVVM.ViewModel
                 else
                 {
                     ErrorServices.DisplayMessage("Error", "Invalid username or password.");
-                    User.Password = string.Empty;
                     return;
                 }
             }
