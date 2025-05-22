@@ -4,14 +4,23 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:SocialMediaApp_Sene"
-    Shell.FlyoutBehavior="Disabled"
-    Shell.NavBarIsVisible="false"
-    NavigationPage.HasNavigationBar="False"
-    Title="SocialMediaApp_Sene">
+    Shell.FlyoutBehavior="Flyout"
+    xmlns:pages="clr-namespace:Socialmedia.MVVM.View"
+    xmlns:page="clr-namespace:SocialMediaApp_Sene.MVVM.Views"
+    
+    Title="SocialMediaApp_Sene"
+    Shell.FlyoutBackgroundColor="#00112e">
+    <!--Shell.NavBarIsVisible="false"
+    NavigationPage.HasNavigationBar="False"-->
+    <FlyoutItem Title="Home" Icon="home.png" Route="homepage">
+        <ShellContent ContentTemplate="{DataTemplate pages:Homepage}" />
+    </FlyoutItem>
+    <!-- User Profile -->
+    <FlyoutItem Title="Profile" Icon="user.png" Route="userprofile">
+        <ShellContent ContentTemplate="{DataTemplate page:ProfilePage}" />
+    </FlyoutItem>
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <!-- Logout -->
+    <MenuItem Text="Logout" Clicked="OnLogoutClicked" IconImageSource="logout.png" />
+ 
 </Shell>

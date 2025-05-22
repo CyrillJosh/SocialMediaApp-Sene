@@ -12,10 +12,12 @@ namespace Socialmedia.MVVM.ViewModel
     public partial class HomePageViewModel : ObservableObject
     {
         //Properties
-        private readonly HttpClient _client = new HttpClient();
+        private readonly HttpClient _client;
 
         [ObservableProperty]
         private ObservableCollection<Post> posts = new ObservableCollection<Post>();
+
+        private List<User> _allUsers;
 
         //Commands
         public ICommand ToggleFlyoutCommand { get; }
@@ -26,22 +28,32 @@ namespace Socialmedia.MVVM.ViewModel
         public HomePageViewModel()
         {
             NavigateToAddPostCommand = new RelayCommand(NavigateToAddPost);
+            _client = new HttpClient();
             LoadPosts();
         }
 
         public async Task LoadPosts()
         {
             Posts.Clear();
-            var httpClient = new HttpClient();
             //var response = await httpClient.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Post"); //Cy
-            var url = "https://682527810f0188d7e72c2016.mockapi.io/Post";
-            HttpResponseMessage response = await _client.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+            var postResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Post");
+            var userResponse = await _client.GetAsync("https://682527810f0188d7e72c2016.mockapi.io/Users");
+
+            if (userResponse.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                var listPosts = JsonConvert.DeserializeObject<List<Post>>(json);
+                var userJson = await userResponse.Content.ReadAsStringAsync();
+                _allUsers = JsonConvert.DeserializeObject<List<User>>(userJson);
+            }
+
+            if (postResponse.IsSuccessStatusCode)
+            {
+                var postJson = await postResponse.Content.ReadAsStringAsync();
+                var listPosts = JsonConvert.DeserializeObject<List<Post>>(postJson);
+
                 foreach (var addedPost in listPosts)
                 {
+                    var user = _allUsers.FirstOrDefault(u => u.id == addedPost.UserId);
+                    addedPost.AuthorName = user != null ? $"{user.Firstname} {user.Lastname}" : "Unknown";
                     Posts.Add(addedPost);
                 }
             }

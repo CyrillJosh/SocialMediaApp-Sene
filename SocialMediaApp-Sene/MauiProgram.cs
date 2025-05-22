@@ -30,7 +30,7 @@ namespace SocialMediaApp_Sene
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ErrorService>();
-
+            builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<Splash>();
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<RegisterPage>();

@@ -83,17 +83,20 @@ namespace Socialmedia.MVVM.ViewModel
                 //}
                 if (matchedUser != null)
                 {
-                    App.CurrentUser = matchedUser; // ✅ Assign the logged-in user globally
                     //ErrorService.IsSuccessful = false;
                     ErrorService.DisplayMessage("Success","Login successful!",false);
-                    await Task.Delay(10000);
-                    Application.Current.MainPage = App.Services.GetRequiredService<Homepage>();
+
+                    await Task.Delay(1000);
+                    UserSession.CurrentUser = matchedUser;
+
+                    Application.Current.MainPage = App.Services.GetRequiredService<AppShell>();
+                    ErrorService.SetAllFalse();
                 }
                 //Invalid
                 else
                 {
                     ErrorService.DisplayMessage("Error", "Invalid username or password.");
-                    User.Password = "";
+                    User.Password = string.Empty;
                     return;
                 }
             }

@@ -34,6 +34,8 @@ namespace SocialMediaApp_Sene.Services
         {
             ShowActivity = false;
             MessageVisible = false;
+            ActivityIndicator = false;
+            ButtonVisible = false;
             Title = "";
             Message = "";
         }
@@ -46,6 +48,15 @@ namespace SocialMediaApp_Sene.Services
             ActivityIndicator = false;
             ShowActivity = true;
             ButtonVisible = button;
+        }
+        public void SetAllFalse()
+        {
+            ShowActivity = false;
+            MessageVisible = false;
+            ActivityIndicator = false;
+            ButtonVisible = false;
+            Title = "";
+            Message = "";
         }
     }
 }

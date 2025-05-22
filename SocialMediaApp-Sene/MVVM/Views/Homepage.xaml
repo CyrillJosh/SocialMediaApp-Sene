@@ -34,6 +34,9 @@
                                    Margin="0,10"
                                    HasShadow="False">
                                 <VerticalStackLayout Spacing="10">
+                                    <Label Text="{Binding AuthorName}"
+                                           FontSize="14"
+                                           TextColor="White" />
                                     <Label Text="{Binding Title}"
                                            FontSize="18"
                                            FontAttributes="Bold"
@@ -41,9 +44,6 @@
                                     <Label Text="{Binding Content}"
                                            FontSize="14"
                                            TextColor="White" />
-                                    <!--<Label Text="User ID: {Binding UserId}"
-                                           FontSize="12"
-                                           TextColor="LightGray" />-->
                                 </VerticalStackLayout>
                             </Frame>
                         </DataTemplate>

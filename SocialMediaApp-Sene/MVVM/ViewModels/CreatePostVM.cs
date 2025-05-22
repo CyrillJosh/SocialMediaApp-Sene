@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
@@ -30,8 +31,6 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
         public ICommand CancelCommand { get; }
         public ICommand OkayCommand { get; }
 
-        public string fullName => $"{App.CurrentUser.Firstname} {App.CurrentUser.Lastname}";
-
         //To be debugged adding of images or video
         //public ICommand AddMediaCommand { get; }
         //private string _videoPath;
@@ -52,7 +51,6 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
             CancelCommand = new RelayCommand(GoToHomePage);
             //To be debugged adding of images or video
             //AddMediaCommand = new Command(async () => await PickVideoAsync());
-            CurrentUser = App.CurrentUser; // You must define this somewhere accessible
             OkayCommand = new Command(ErrorService.Okay);
         }
 
@@ -72,7 +70,7 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
         //}
         private async void GoToHomePage()
         {
-            var homepage = App.Services.GetRequiredService<Homepage>();
+            var homepage = App.Services.GetRequiredService<AppShell>();
             var vm = homepage.BindingContext as HomePageViewModel;
             if (vm != null)
                 await vm.LoadPosts(); // reload latest posts
@@ -90,27 +88,21 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
                 ErrorService.DisplayMessage("Error", "Please enter a Title.");
                 return;
             }
-
             var newPost = new Post
             {
                 Title = Title,
                 Content = Content,
-                UserId = CurrentUser.id
+                UserId = UserSession.CurrentUser.id,
+                AuthorName = $"{UserSession.CurrentUser.Firstname} {UserSession.CurrentUser.Lastname}"
             };
-
             var json = JsonConvert.SerializeObject(newPost);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            //var response = await _client.PostAsync("https://6819ae131ac115563505b710.mockapi.io/Post", content); //Cy
             var response = await _client.PostAsync("https://682527810f0188d7e72c2016.mockapi.io/Post", content);
-
             if (response.IsSuccessStatusCode)
             {
-                ErrorService.DisplayMessage("Success","Successfully added.",false);
+                ErrorService.DisplayMessage("Success", "Successfully Registered!", false);
+                await Task.Delay(1000);
                 GoToHomePage();
-            }
-            else
-            {
-                ErrorService.DisplayMessage("Error", "Failed to create post.");
             }
         }
     }
