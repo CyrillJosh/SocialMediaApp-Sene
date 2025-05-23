@@ -27,18 +27,11 @@
                    Margin="-20,-20,-20,0"
                    HorizontalTextAlignment="Center"/>
             <!-- User Info -->
-            <HorizontalStackLayout >
-                <VerticalStackLayout VerticalOptions="Start" Padding="0,20">
-                    <Label Text="{Binding fullName}"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="White"/>
-                    <Label Text="Public"
-                           FontSize="14"
-                           TextColor="Gray"/>
-                </VerticalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="{Binding CurrentUser.Firstname}" FontSize="14" TextColor="White" FontAttributes="Bold" />
+                <Label Text="{Binding CurrentUser.Lastname}" FontSize="14" TextColor="White" FontAttributes="Bold" />
             </HorizontalStackLayout>
-            <!--#region To be dubugged adding of media-->
+                <!--#region To be dubugged adding of media-->
             <!-- Add Media -->
             <!--<Label Text="Add Media"
                    FontAttributes="Bold"

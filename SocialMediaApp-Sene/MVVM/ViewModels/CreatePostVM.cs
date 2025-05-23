@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Socialmedia.MVVM.View;
 using Socialmedia.MVVM.ViewModel;
 using SocialMediaApp_Sene.MVVM.Models;
+using SocialMediaApp_Sene.MVVM.Views;
 using SocialMediaApp_Sene.Services;
 
 namespace SocialMediaApp_Sene.MVVM.ViewModels
@@ -27,6 +28,9 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
         [ObservableProperty]
         private ErrorService errorService;
+
+        private Post editingPost;  // backing field
+
         public ICommand CreatePostCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand OkayCommand { get; }
@@ -47,7 +51,8 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
         public CreatePostVM()
         {
             ErrorService = new ErrorService();
-            CreatePostCommand = new RelayCommand(async () => await AddPost());
+            CurrentUser = UserSession.CurrentUser;
+            CreatePostCommand = new Command(async () => await SavePost());
             CancelCommand = new RelayCommand(GoToHomePage);
             //To be debugged adding of images or video
             //AddMediaCommand = new Command(async () => await PickVideoAsync());
@@ -68,6 +73,75 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
         //        VideoPath = res.FullPath;
         //    }
         //}
+
+        public void LoadPostForEdit(Post post)
+        {
+            if (post == null) return;
+
+            editingPost = post;
+            Title = post.Title;
+            Content = post.Content;
+            // Load other fields if needed
+        }
+        private async Task SavePost()
+        {
+            ErrorService.ShowActivity = true;
+            ErrorService.ActivityIndicator = true;
+            ErrorService.MessageVisible = false;
+
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                ErrorService.DisplayMessage("Error", "Please enter a Title.");
+                return;
+            }
+
+            if (editingPost == null)
+            {
+                // Create new post
+                var newPost = new Post
+                {
+                    Title = Title,
+                    Content = Content,
+                    UserId = CurrentUser.id,
+                    DateCreated = DateTime.Now
+                };
+
+                var json = JsonConvert.SerializeObject(newPost);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _client.PostAsync("https://682527810f0188d7e72c2016.mockapi.io/Post", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ErrorService.DisplayMessage("Success", "Post created successfully!", false);
+                    await Task.Delay(1000);
+                    GoToHomePage();
+                }
+            }
+            else
+            {
+                // Update existing post
+                editingPost.Title = Title;
+                editingPost.Content = Content;
+
+                var json = JsonConvert.SerializeObject(editingPost);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                //var url = $"https://682527810f0188d7e72c2016.mockapi.io/Post/{editingPost.id}";//Charles
+                var url = $"https://6819ae131ac115563505b710.mockapi.io/Posts/{editingPost.id}";//CY
+                var response = await _client.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ErrorService.DisplayMessage("Success", "Post updated successfully!", false);
+                    await Task.Delay(1000);
+                    GoToHomePage();
+                }
+                else
+                {
+                    ErrorService.DisplayMessage("Error", "An error has occured please try again");
+                }
+            }
+        }
+
         private async void GoToHomePage()
         {
             var homepage = App.Services.GetRequiredService<AppShell>();
@@ -78,32 +152,32 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
             Application.Current.MainPage = homepage;
         }
 
-        private async Task AddPost()
-        {
-            ErrorService.ShowActivity = true;
-            ErrorService.ActivityIndicator = true;
-            ErrorService.MessageVisible = false;
-            if (string.IsNullOrWhiteSpace(Title))
-            {
-                ErrorService.DisplayMessage("Error", "Please enter a Title.");
-                return;
-            }
-            var newPost = new Post
-            {
-                Title = Title,
-                Content = Content,
-                UserId = UserSession.CurrentUser.id,
-                AuthorName = $"{UserSession.CurrentUser.Firstname} {UserSession.CurrentUser.Lastname}"
-            };
-            var json = JsonConvert.SerializeObject(newPost);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("https://682527810f0188d7e72c2016.mockapi.io/Post", content);
-            if (response.IsSuccessStatusCode)
-            {
-                ErrorService.DisplayMessage("Success", "Successfully Registered!", false);
-                await Task.Delay(1000);
-                GoToHomePage();
-            }
-        }
+        //private async Task AddPost()
+        //{
+        //    ErrorService.ShowActivity = true;
+        //    ErrorService.ActivityIndicator = true;
+        //    ErrorService.MessageVisible = false;
+        //    if (string.IsNullOrWhiteSpace(Title))
+        //    {
+        //        ErrorService.DisplayMessage("Error", "Please enter a Title.");
+        //        return;
+        //    }
+        //    var newPost = new Post
+        //    {
+        //        Title = Title,
+        //        Content = Content,
+        //        UserId = UserSession.CurrentUser.id,
+        //        AuthorName = $"{UserSession.CurrentUser.Firstname} {UserSession.CurrentUser.Lastname}"
+        //    };
+        //    var json = JsonConvert.SerializeObject(newPost);
+        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+        //    var response = await _client.PostAsync("https://682527810f0188d7e72c2016.mockapi.io/Post", content);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        ErrorService.DisplayMessage("Success", "Successfully Registered!", false);
+        //        await Task.Delay(1000);
+        //        GoToHomePage();
+        //    }
+        //}
     }
 }

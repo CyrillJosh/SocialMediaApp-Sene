@@ -8,5 +8,12 @@ public partial class Homepage : ContentPage
     {
         InitializeComponent();
     }
-
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is HomePageViewModel vm)
+        {
+            await vm.LoadPosts();
+        }
+    }
 }

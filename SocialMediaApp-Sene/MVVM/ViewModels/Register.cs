@@ -63,6 +63,7 @@ namespace Socialmedia.MVVM.ViewModel
             ToggleConfirmPasswordCommand = new RelayCommand(ToggleConfirmPasswordVisibility);
         }
 
+
         private async void Registers()
         {
             ErrorService.ShowActivity = true;

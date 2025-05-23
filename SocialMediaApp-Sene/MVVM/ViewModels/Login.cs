@@ -8,6 +8,7 @@ using System.Diagnostics;
 using SocialMediaApp_Sene.MVVM.Models;
 using Newtonsoft.Json;
 using SocialMediaApp_Sene.Services;
+using SocialMediaApp_Sene.MVVM.Views;
 
 namespace Socialmedia.MVVM.ViewModel
 {
@@ -49,21 +50,20 @@ namespace Socialmedia.MVVM.ViewModel
 
         private async void LoginUser()
         {
-            ErrorService.ShowActivity = true;
-            ErrorService.ActivityIndicator = true;
-            ErrorService.MessageVisible = false;
-            ErrorService.ButtonVisible = false;
+            ErrorService.StartActivity();
             //ErrorService.IsSuccessful = true;
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
-            {
+           {
                 ErrorService.DisplayMessage("Error", "Please enter your username and password.");
+                User.Password = string.Empty;
+                IsPasswordHidden = true;
                 return;
             }
 
 
             //MockAPI
-            //var url = "https://6819ae131ac115563505b710.mockapi.io/Users"; //CY
-            var url = "https://682527810f0188d7e72c2016.mockapi.io/Users";
+            var url = "https://6819ae131ac115563505b710.mockapi.io/Users"; //CY
+            //var url = "https://682527810f0188d7e72c2016.mockapi.io/Users"; //Charles
             HttpResponseMessage response = await _client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
@@ -86,11 +86,10 @@ namespace Socialmedia.MVVM.ViewModel
                     //ErrorService.IsSuccessful = false;
                     ErrorService.DisplayMessage("Success","Login successful!",false);
 
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                     UserSession.CurrentUser = matchedUser;
-
                     Application.Current.MainPage = App.Services.GetRequiredService<AppShell>();
-                    ErrorService.SetAllFalse();
+                    ErrorService.Okay();
                 }
                 //Invalid
                 else

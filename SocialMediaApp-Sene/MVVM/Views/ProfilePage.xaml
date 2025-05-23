@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SocialMediaApp_Sene.MVVM.Views.ProfilePage"
              xmlns:vm="clr-namespace:SocialMediaApp_Sene.MVVM.ViewModels"
-             Title="ProfilePage">
+             NavigationPage.HasBackButton="True"
+             Title="My Profile">
     <ContentPage.BindingContext>
         <vm:ProfileVM />
     </ContentPage.BindingContext>
@@ -12,7 +13,35 @@
 
             <!-- User Details -->
             <Frame BackgroundColor="#002366" Padding="15" CornerRadius="15">
-                <VerticalStackLayout Spacing="10">
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="5">
+                        <Label Text="{Binding CurrentUser.Firstname}" FontSize="18" TextColor="White" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentUser.Lastname}" FontSize="18" TextColor="White" FontAttributes="Bold" />
+                    </HorizontalStackLayout>
+                    <Label FontSize="12" TextColor="Gray">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="@" FontAttributes="Italic" />
+                                <Span Text="{Binding CurrentUser.Username}" FontAttributes="Italic" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <VerticalStackLayout Spacing="10">
+                        <HorizontalStackLayout Spacing="5" VerticalOptions="Center" Margin="0,15,0,0">
+                            <Image Source="mail.png" WidthRequest="20" HeightRequest="20" />
+                            <Label FontSize="18" TextColor="White" Text="{Binding CurrentUser.Email}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Image Source="birthdate.png" WidthRequest="20" HeightRequest="20" />
+                            <Label FontSize="18" TextColor="White" Text="{Binding CurrentUser.BirthDate, StringFormat='{0:MMMM dd, yyyy}'}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Image Source="phone.png" WidthRequest="20" HeightRequest="20" />
+                            <Label FontSize="18" TextColor="White" Text="{Binding CurrentUser.PhoneNumber}" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <!--<VerticalStackLayout Spacing="10">
                     <HorizontalStackLayout>
                         <Label Text="{Binding CurrentUser.Firstname}" FontSize="24" TextColor="White" FontAttributes="Bold" />
                         <Label Text="{Binding CurrentUser.Lastname}" FontSize="24" TextColor="White" FontAttributes="Bold" />
@@ -20,25 +49,68 @@
                     <Label Text="{Binding CurrentUser.Username}" FontSize="18" TextColor="White" />
                     <Label Text="{Binding CurrentUser.Email}" FontSize="18" TextColor="White" />
                     <Label Text="{Binding CurrentUser.BirthDate, StringFormat='Birthday: {0:MMMM dd, yyyy}'}" FontSize="18" TextColor="White" />
-                </VerticalStackLayout>
+                </VerticalStackLayout>-->
             </Frame>
 
             <!-- User's Posts -->
-            <Label Text="My Posts" FontSize="20" FontAttributes="Bold" TextColor="White" />
-
+            <Frame BackgroundColor="#00baba" Padding="10" >
+                <Label Text="My Posts" FontSize="20" FontAttributes="Bold" TextColor="White" />
+            </Frame>
             <CollectionView ItemsSource="{Binding UserPosts}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BackgroundColor="#002366" CornerRadius="15" Padding="10" Margin="0,5">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding Title}" FontSize="18" TextColor="White" FontAttributes="Bold" />
-                                <Label Text="{Binding Content}" FontSize="16" TextColor="White" />
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItem Text="Delete"
+                                               IsVisible="{Binding IsEditable}"
+                                               BackgroundColor="Red"
+                                               Command="{Binding Source={x:Reference PostCollectionView},
+                                                        Path=BindingContext.DeletePostCommand}"
+                                               CommandParameter="{Binding .}"/>
+                        </SwipeView.RightItems>
+                        <SwipeView.LeftItems>
+                            <SwipeItem Text="Edit"
+                                               IsVisible="{Binding IsEditable}"
+                                               BackgroundColor="Green"
+                                               Command="{Binding Source={x:Reference PostCollectionView},
+                                                        Path=BindingContext.EditPostCommand}"
+                                               CommandParameter="{Binding .}"/>
+                        </SwipeView.LeftItems>
+                        <Frame BackgroundColor="#002366"
+                                       CornerRadius="20"
+                                       Padding="15"
+                                       Margin="0,10"
+                                       HasShadow="False">
+                            <VerticalStackLayout Spacing="10">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding User.Firstname}"
+                                                        FontSize="14"
+                                                        TextColor="White" />
+                                            <Span Text=" "
+                                                        FontSize="14"
+                                                        TextColor="White" />
+                                            <Span Text="{Binding User.Lastname}" 
+                                                        FontSize="14"
+                                                        TextColor="White" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Text="{Binding Post.Title}"
+                                               FontSize="22"
+                                               FontAttributes="Bold"
+                                               Margin="0,0,0,-7"
+                                               TextColor="White" />
+                                <Label Text="{Binding Post.Content}"
+                                               FontSize="16"
+                                               TextColor="White" />
                             </VerticalStackLayout>
                         </Frame>
-                    </DataTemplate>
+                    </SwipeView>
+                </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
