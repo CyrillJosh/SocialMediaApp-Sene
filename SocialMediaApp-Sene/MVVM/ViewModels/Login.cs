@@ -51,11 +51,11 @@ namespace Socialmedia.MVVM.ViewModel
         //login
         private async void LoginUser()
         {
-            ErrorService.StartActivity();
+            ErrorServices.StartActivity();
             //ErrorService.IsSuccessful = true;
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
            {
-                ErrorService.DisplayMessage("Error", "Please enter your username and password.");
+                ErrorServices.DisplayMessage("Error", "Please enter your username and password.");
                 User.Password = string.Empty;
                 IsPasswordHidden = true;
                 return;
@@ -81,7 +81,7 @@ namespace Socialmedia.MVVM.ViewModel
                     await Task.Delay(500);
                     UserSession.CurrentUser = matchedUser;
                     Application.Current.MainPage = App.Services.GetRequiredService<AppShell>();
-                    ErrorService.Okay();
+                    ErrorServices.Okay();
                 }
                 //Invalid
                 else

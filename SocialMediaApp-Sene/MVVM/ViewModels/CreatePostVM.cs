@@ -29,6 +29,8 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
         [ObservableProperty]
         private ErrorService errorService;
+
+        private Post editingPost;
         
         //Commands
         public ICommand CreatePostCommand { get; }
@@ -94,8 +96,8 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
                 var json = JsonConvert.SerializeObject(editingPost);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                //var url = $"https://682527810f0188d7e72c2016.mockapi.io/Post/{editingPost.id}";//Charles
-                var url = $"https://6819ae131ac115563505b710.mockapi.io/Posts/{editingPost.id}";//CY
+                //var url = $"https://682527810f0188d7e72c2016.mockapi.io/Post/{editingPost.Id}";//Charles
+                var url = $"https://6819ae131ac115563505b710.mockapi.io/Posts/{editingPost.Id}";//CY
                 var response = await _client.PutAsync(url, content);
 
                 if (response.IsSuccessStatusCode)

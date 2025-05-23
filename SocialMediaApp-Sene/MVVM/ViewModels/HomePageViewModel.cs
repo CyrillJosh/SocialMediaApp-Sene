@@ -20,11 +20,11 @@ namespace Socialmedia.MVVM.ViewModel
 
         [ObservableProperty]
         private ObservableCollection<PostVM> posts = new ObservableCollection<PostVM>();
-        
+
         [ObservableProperty]
         private ErrorService errorService;
 
-        private List<User> _allUsers = new();
+        private List<User> _allUsers;
 
         [ObservableProperty]
         private User currentUser;
@@ -50,7 +50,6 @@ namespace Socialmedia.MVVM.ViewModel
         //Load Posts
         public async Task LoadPosts()
         {
-            //clear
             Posts.Clear();
             var postResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Posts"); //Cy
             var userResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Users"); //Cy
@@ -90,7 +89,7 @@ namespace Socialmedia.MVVM.ViewModel
             var json = JsonConvert.SerializeObject(post.Post);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             //var postsUrl = $"https://682527810f0188d7e72c2016.mockapi.io/Post/{post.Post.id}";//Charles
-            var postsUrl = $"https://6819ae131ac115563505b710.mockapi.io/Posts/{post.Post.id}";//CY
+            var postsUrl = $"https://6819ae131ac115563505b710.mockapi.io/Posts/{post.Post.Id}";//CY
             var response = await _client.PatchAsync(postsUrl, content);
             if (response.IsSuccessStatusCode)
             {

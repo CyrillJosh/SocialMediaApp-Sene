@@ -59,5 +59,6 @@ namespace SocialMediaApp_Sene.Services
             ActivityIndicator = true;
             MessageVisible = false;
             ButtonVisible = false;
+        }
     }
 }
