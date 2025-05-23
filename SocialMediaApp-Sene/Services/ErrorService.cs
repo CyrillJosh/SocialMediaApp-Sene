@@ -31,7 +31,7 @@ namespace SocialMediaApp_Sene.Services
         [ObservableProperty]
         private bool buttonVisible;
 
-        //Hide the activity
+        //Okay | Stop Activity
         public void Okay()
         {
             ShowActivity = false;
@@ -52,5 +52,12 @@ namespace SocialMediaApp_Sene.Services
             ShowActivity = true;
             ButtonVisible = button;
         }
+        //Start Activity
+        public void StartActivity()
+        {
+            ShowActivity = true;
+            ActivityIndicator = true;
+            MessageVisible = false;
+            ButtonVisible = false;
     }
 }

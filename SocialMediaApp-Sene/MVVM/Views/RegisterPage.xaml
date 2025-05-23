@@ -122,7 +122,8 @@
                             <Picker
                                 VerticalOptions="Center"
                                 Title="Gender"
-                                TitleColor="LightGrey"
+                                TitleColor="Gray"
+                                TextColor="Black"
                                 Grid.Column="1"
                                 FontSize="16"
                                 SelectedItem="{Binding User.Gender}">
@@ -158,6 +159,7 @@
                                 FontSize="16"
                                 Text=""
                                 IsReadOnly="True"
+                                TextColor="Black"
                                 Placeholder="Birth Date">
                             </Entry>
                             <DatePicker

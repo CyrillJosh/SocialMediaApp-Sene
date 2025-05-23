@@ -92,9 +92,9 @@
                            HeightRequest="24"
                            VerticalOptions="Center"/>
                         <Entry Placeholder="Password"
-                           IsPassword="{Binding IsPasswordHidden}"
+                           IsPassword="{Binding IsPasswordHidden, Mode=TwoWay}"
                            Grid.Column="1"
-                           Text="{Binding User.Password}"
+                           Text="{Binding User.Password, Mode=TwoWay}"
                            FontSize="16"
                            BackgroundColor="Transparent"
                            TextColor="Black"/>

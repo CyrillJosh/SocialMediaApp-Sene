@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Socialmedia.MVVM.View;
 using Socialmedia.MVVM.ViewModel;
+using SocialMediaApp_Sene.MVVM.ViewModels;
 using SocialMediaApp_Sene.MVVM.Views;
 using SocialMediaApp_Sene.Services;
 
@@ -31,12 +32,18 @@ namespace SocialMediaApp_Sene
 #endif
             builder.Services.AddSingleton<ErrorService>();
             builder.Services.AddSingleton<AppShell>();
+            //builder.Services.AddSingleton<SeneFlyoutVM>();
+            //builder.Services.AddSingleton<SeneFlyoutPage>();
             builder.Services.AddSingleton<Splash>();
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<RegisterPage>();
             builder.Services.AddSingleton<Homepage>();
             builder.Services.AddSingleton<CreatePost>();
-
+            builder.Services.AddSingleton<ProfilePage>();
+            //VM
+            builder.Services.AddTransient<Login>();
+            builder.Services.AddTransient<Register>();
+            builder.Services.AddTransient<CreatePost>();
             return builder.Build();
         }
     }

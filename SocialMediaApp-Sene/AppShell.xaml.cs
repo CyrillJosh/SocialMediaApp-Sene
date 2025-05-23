@@ -1,4 +1,7 @@
-﻿using Socialmedia.MVVM.View;
+﻿
+using System.Windows.Input;
+using Socialmedia.MVVM.View;
+using Socialmedia.MVVM.ViewModel;
 using SocialMediaApp_Sene.MVVM.Models;
 using SocialMediaApp_Sene.MVVM.Views;
 
@@ -6,20 +9,22 @@ namespace SocialMediaApp_Sene
 {
     public partial class AppShell : Shell
     {
+        public ICommand LogoutCommand { get; }
+
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("home", typeof(Homepage));
-            Routing.RegisterRoute("profile", typeof(ProfilePage));
+            LogoutCommand = new Command(Logout);
+            BindingContext = this;
         }
 
-        private async void OnLogoutClicked(object sender, EventArgs e)
+        private void Logout()
         {
-            // Optional: clear session
-            UserSession.CurrentUser = null;
-            // Redirect to login page
-            Application.Current.MainPage = App.Services.GetRequiredService<LoginPage>();
-        }
+            var newVm = App.Services.GetRequiredService<Login>();
+            var loginPage = App.Services.GetRequiredService<LoginPage>();
+            loginPage.BindingContext = newVm;
+            Application.Current.MainPage = loginPage;
 
+        }
     }
 }

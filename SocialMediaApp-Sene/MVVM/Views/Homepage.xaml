@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Socialmedia.MVVM.ViewModel"
              x:Class="Socialmedia.MVVM.View.Homepage"
-             BackgroundColor="#00112e"
-             NavigationPage.HasNavigationBar="False"
-             Shell.NavBarIsVisible="False">
+             BackgroundColor="#00112e">
+  
     <ContentPage.BindingContext>
         <vm:HomePageViewModel />
     </ContentPage.BindingContext>
@@ -15,61 +14,149 @@
             <VerticalStackLayout Padding="20" Spacing="20">
 
                 <!-- Header -->
-                <Label Text="Home Page"
-                       FontAttributes="Bold"
-                       FontSize="24"
-                       Padding="10"
-                       Margin="0,10,0,0"
-                       TextColor="White"
-                       HorizontalOptions="Center" />
+                <VerticalStackLayout Spacing="-10">
+                    <Label Text="Welcome"
+                           FontAttributes="Bold"
+                           FontSize="24"
+                           Padding="10,0"
+                           Margin="0,10,0,0"
+                           TextColor="White"
+                           HorizontalOptions="Start" />
+                    <Label Text="Where Movies Meet You"
+                           FontSize="18"
+                           Padding="10,0"
+                           Margin="0,10,0,0"
+                           TextColor="White"
+                           HorizontalOptions="Start" />
+                </VerticalStackLayout>
                 <!--#region Post -->
-                <CollectionView ItemsSource="{Binding Posts}"
+                <!--<RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">-->
+                    <CollectionView ItemsSource="{Binding Posts}"
+                                x:Name="PostCollectionView"
                                 Margin="10"
                                 SelectionMode="None">   
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BackgroundColor="#002366"
-                                   CornerRadius="20"
-                                   Padding="15"
-                                   Margin="0,10"
-                                   HasShadow="False">
-                                <VerticalStackLayout Spacing="10">
-                                    <Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{Binding User.Firstname}"
-                                                    FontSize="14"
-                                                    TextColor="White" />
-                                                <Span Text=" "
-                                                    FontSize="14"
-                                                    TextColor="White" />
-                                                <Span Text="{Binding User.Lastname}" 
-                                                    FontSize="14"
-                                                    TextColor="White" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Text="{Binding Post.Title}"
-                                           FontSize="18"
-                                           FontAttributes="Bold"
-                                           TextColor="White" />
-                                    <Label Text="{Binding Post.Content}"
-                                           FontSize="14"
-                                           TextColor="White" />
-                                </VerticalStackLayout>
-                            </Frame>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItem Text="Delete"
+                                               IsVisible="{Binding IsEditable}"
+                                               BackgroundColor="Red"
+                                               Command="{Binding Source={x:Reference PostCollectionView},
+                                                        Path=BindingContext.DeletePostCommand}"
+                                               CommandParameter="{Binding .}"/>
+                                </SwipeView.RightItems>
+                                <SwipeView.LeftItems>
+                                    <SwipeItem Text="Edit"
+                                               IsVisible="{Binding IsEditable}"
+                                               BackgroundColor="Green"
+                                               Command="{Binding Source={x:Reference PostCollectionView},
+                                                        Path=BindingContext.EditPostCommand}"
+                                               CommandParameter="{Binding .}"/>
+                                </SwipeView.LeftItems>
+                                <Frame BackgroundColor="#002366"
+                                       CornerRadius="20"
+                                       Padding="15"
+                                       Margin="0,10"
+                                       HasShadow="False">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding User.Firstname}"
+                                                        FontSize="14"
+                                                        TextColor="White" />
+                                                    <Span Text=" "
+                                                        FontSize="14"
+                                                        TextColor="White" />
+                                                    <Span Text="{Binding User.Lastname}" 
+                                                        FontSize="14"
+                                                        TextColor="White" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding Post.Title}"
+                                               FontSize="22"
+                                               FontAttributes="Bold"
+                                               Margin="0,0,0,-7"
+                                               TextColor="White" />
+                                        <Label Text="{Binding Post.Content}"
+                                               FontSize="16"
+                                               TextColor="White" />
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <!--</RefreshView>-->
                 <!--#endregion-->
             </VerticalStackLayout>
         </ScrollView>
-
+        <!--#region Activity Indicator-->
+        <Frame
+                BackgroundColor="Black"
+                Opacity=".35"
+                IsVisible="{Binding ErrorService.ShowActivity}">
+        </Frame>
+        <Frame
+                BackgroundColor="White"
+                Padding="10"
+                BorderColor="#0a2961"
+                WidthRequest="250"
+                HeightRequest="200"
+                Opacity="50"
+                IsVisible="{Binding ErrorService.ShowActivity}">
+            <Grid>
+                <ActivityIndicator 
+                        WidthRequest="50"
+                        Color="#0a2961"
+                        IsRunning="{Binding ErrorService.ActivityIndicator}"/>
+                <Grid
+                        RowDefinitions="*,*,*">
+                    <VerticalStackLayout
+                            Spacing="7">
+                        <Label
+                                FontSize="Large"
+                                VerticalOptions="Start"
+                                HorizontalOptions="Start"
+                                TextColor="Black"
+                                IsVisible="{Binding ErrorService.MessageVisible}"
+                                Text="{Binding ErrorService.Title}"/>
+                        <Rectangle
+                                HeightRequest="2"
+                                BackgroundColor="Gray"
+                                IsVisible="{Binding ErrorService.MessageVisible}"
+                                WidthRequest="100000"/>
+                    </VerticalStackLayout>
+                    <Label
+                            Grid.Row="1"
+                            TextColor="Black"
+                            IsVisible="{Binding ErrorService.MessageVisible}"
+                            Text="{Binding ErrorService.Message}"/>
+                    <Button
+                            IsVisible="{Binding ErrorService.ButtonVisible}"
+                            Grid.Row="2"
+                            VerticalOptions="End"
+                            CornerRadius="50"
+                            Padding="25,0"
+                            HorizontalOptions="End"
+                            TextColor="#0a2961"
+                            FontAttributes="Bold"
+                            BorderColor="#0a2961"
+                            BorderWidth="2"
+                            BackgroundColor="Transparent"
+                            Command="{Binding OkayCommand}"
+                            Text="OK"/>
+                </Grid>
+            </Grid>
+        </Frame>
+        <!--#endregion-->
         <!-- Bottom Navigation -->
         <Grid Grid.Row="1"
-          BackgroundColor="White"
-          Padding="10"
-          HeightRequest="60">
+              BackgroundColor="White"
+              Padding="10"
+              HeightRequest="60">
             <ImageButton Source="addpost.png"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
@@ -80,118 +167,4 @@
             </ImageButton>
         </Grid>
     </Grid>
-    <!--#region old -->
-    <!--<Grid RowDefinitions="Auto, *, Auto">
-
-        -->
-    <!-- Top Bar -->
-    <!--
-        <Grid BackgroundColor= "#349dcd" Padding="10"
-              ColumnDefinitions="Auto, *, Auto"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="Start">
-           
-            <Frame x:Name="FlyoutMenu"
-                TranslationX="{Binding FlyoutMenuPosition}"
-                BackgroundColor="#004aad"
-                CornerRadius="10"
-                Padding="20"
-                WidthRequest="250"
-                HeightRequest="1000"
-                VerticalOptions="Start"
-                HasShadow="True">
-                <StackLayout>
-                    -->
-    <!-- Back Button -->
-    <!--
-                    <Button Text="Back" 
-                        FontSize="16" 
-                        BackgroundColor="Transparent" 
-                        TextColor="White"
-                        Command="{Binding CloseFlyoutCommand}" />
-
-                    <Label Text="Profile" FontSize="18" TextColor="White"/>
-                    <Label Text="Settings" FontSize="18" TextColor="White"/>
-                    <Label Text="Notifications" FontSize="18" TextColor="White"/>
-                    <Label Text="Logout" FontSize="18" TextColor="Red"/>
-                </StackLayout>
-            </Frame>
-
-
-            -->
-    <!-- Menu Button -->
-    <!--
-            <Grid 
-                BackgroundColor="#16213e" 
-                Padding="10"
-                HorizontalOptions="Start" 
-                VerticalOptions="Start">
-
-                <Button 
-                    Text="☰" 
-                    FontSize="24" 
-                    BackgroundColor="Transparent" 
-                    TextColor="White"
-                    Command="{Binding ToggleFlyoutCommand}" />
-
-
-            </Grid>
-        </Grid>
-
-
-        -->
-    <!-- Chat Area (Scrollable) -->
-    <!--
-        <ScrollView Grid.Row="1">
-            <StackLayout Padding="10">
-                <Label Text="Chat Messages:" FontSize="16" TextColor="White" HeightRequest="20"/>
-                <ListView ItemsSource="{Binding Messages}" 
-                  BackgroundColor="Transparent" 
-                  HasUnevenRows="True" 
-                  SeparatorVisibility="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="5">
-                                    <Frame BackgroundColor="#0f3460"
-                                   Padding="10"
-                                   Margin="5"
-                                   CornerRadius="10"
-                                   HasShadow="False"
-                                   HorizontalOptions="Start">
-                                        <Label Text="{Binding .}" 
-                                       TextColor="White" 
-                                       FontSize="14"
-                                       LineBreakMode="WordWrap"/>
-                                    </Frame>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
-        </ScrollView>
-
-        -->
-    <!-- Message Input (FIXED AT BOTTOM) -->
-    <!--
-        <Grid Grid.Row="2" Padding="10" BackgroundColor="#0f3460">
-            <Grid ColumnDefinitions="*, Auto">
-                <Border StrokeThickness="1" Stroke="Black" BackgroundColor="White" Padding="5" HeightRequest="50">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="10"/>
-                    </Border.StrokeShape>
-                    <Entry Placeholder="Type a message..." 
-                       BackgroundColor="White"
-                       TextColor="Black"
-                       Text="{Binding MessageText, Mode=TwoWay}"/>
-                </Border>
-               
-                <Button Text="Send" BackgroundColor="#e94560" TextColor="White" 
-                        Command="{Binding SendMessageCommand}" Grid.Column="1"/>
-            </Grid>
-        </Grid>
-
-    </Grid>-->
-    <!--#endregion-->
 </ContentPage>

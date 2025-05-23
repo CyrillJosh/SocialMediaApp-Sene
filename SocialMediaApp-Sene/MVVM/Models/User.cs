@@ -1,4 +1,5 @@
-﻿ using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SocialMediaApp_Sene.MVVM.Models
 {
-    public class User
+    public class User 
     {
         //Fields
         public int id { get; set; }

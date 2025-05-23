@@ -11,7 +11,7 @@ namespace SocialMediaApp_Sene
         {
             InitializeComponent();
             Services = serviceProvider;
-            MainPage = Services.GetRequiredService<LoginPage>();
+            MainPage = Services.GetRequiredService<Splash>();
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using SocialMediaApp_Sene.MVVM.Models;
 using Newtonsoft.Json;
 using SocialMediaApp_Sene.Services;
+using SocialMediaApp_Sene.MVVM.Views;
 
 namespace Socialmedia.MVVM.ViewModel
 {
@@ -50,16 +51,13 @@ namespace Socialmedia.MVVM.ViewModel
         //login
         private async void LoginUser()
         {
-            //Set activity
-            ErrorServices.ShowActivity = true;
-            ErrorServices.ActivityIndicator = true;
-            ErrorServices.MessageVisible = false;
-            ErrorServices.ButtonVisible = false;
-
-            //Check empty fields
+            ErrorService.StartActivity();
+            //ErrorService.IsSuccessful = true;
             if (string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password))
-            {
-                ErrorServices.DisplayMessage("Error", "Please enter your username and password.");
+           {
+                ErrorService.DisplayMessage("Error", "Please enter your username and password.");
+                User.Password = string.Empty;
+                IsPasswordHidden = true;
                 return;
             }
 
@@ -80,11 +78,10 @@ namespace Socialmedia.MVVM.ViewModel
                 {
                     ErrorServices.DisplayMessage("Success","Login successful!",false);
 
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                     UserSession.CurrentUser = matchedUser;
-
                     Application.Current.MainPage = App.Services.GetRequiredService<AppShell>();
-                    ErrorServices.Okay();
+                    ErrorService.Okay();
                 }
                 //Invalid
                 else
