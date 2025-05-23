@@ -16,6 +16,7 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 {
     public partial class CreatePostVM : ObservableObject
     {
+        //Feilds
         private readonly HttpClient _client = new HttpClient();
         [ObservableProperty]
         private string title;
@@ -28,66 +29,34 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
 
         [ObservableProperty]
         private ErrorService errorService;
-
-        private Post editingPost;  // backing field
-
+        
+        //Commands
         public ICommand CreatePostCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand OkayCommand { get; }
 
-        //To be debugged adding of images or video
-        //public ICommand AddMediaCommand { get; }
-        //private string _videoPath;
-        //public string VideoPath
-        //{
-        //    get => _videoPath;
-        //    set
-        //    {
-        //        _videoPath = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
+        //Constructor
         public CreatePostVM()
         {
             ErrorService = new ErrorService();
             CurrentUser = UserSession.CurrentUser;
             CreatePostCommand = new Command(async () => await SavePost());
             CancelCommand = new RelayCommand(GoToHomePage);
-            //To be debugged adding of images or video
-            //AddMediaCommand = new Command(async () => await PickVideoAsync());
             OkayCommand = new Command(ErrorService.Okay);
         }
-
-        //To be debugged adding of images or video
-        //private async Task PickVideoAsync()
-        //{
-        //    var res = await FilePicker.PickAsync(new PickOptions
-        //    {
-        //        PickerTitle = "Pick a video",
-        //        FileTypes = FilePickerFileType.Videos
-        //    });
-
-        //    if (res != null)
-        //    {
-        //        VideoPath = res.FullPath;
-        //    }
-        //}
 
         public void LoadPostForEdit(Post post)
         {
             if (post == null) return;
-
             editingPost = post;
             Title = post.Title;
             Content = post.Content;
             // Load other fields if needed
         }
+
         private async Task SavePost()
         {
-            ErrorService.ShowActivity = true;
-            ErrorService.ActivityIndicator = true;
-            ErrorService.MessageVisible = false;
+            ErrorService.StartActivity();
 
             if (string.IsNullOrWhiteSpace(Title))
             {

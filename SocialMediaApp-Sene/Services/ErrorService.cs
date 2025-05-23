@@ -12,6 +12,7 @@ namespace SocialMediaApp_Sene.Services
 {
     public partial class ErrorService : ObservableObject
     {
+        //Feilds
         [ObservableProperty]
         private bool activityIndicator;
 
@@ -41,6 +42,7 @@ namespace SocialMediaApp_Sene.Services
             Message = "";
         }
 
+        //Display message/activity
         public void DisplayMessage(string title, string message, bool button = true)
         {
             Title = title;
@@ -57,6 +59,5 @@ namespace SocialMediaApp_Sene.Services
             ActivityIndicator = true;
             MessageVisible = false;
             ButtonVisible = false;
-        }
     }
 }

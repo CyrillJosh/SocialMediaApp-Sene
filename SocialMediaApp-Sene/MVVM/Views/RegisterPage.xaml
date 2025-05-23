@@ -360,7 +360,7 @@
         <!-- Overlay Mask -->
         <Frame BackgroundColor="Black"
            Opacity="0.35"
-           IsVisible="{Binding ErrorService.ShowActivity}"
+           IsVisible="{Binding ErrorServices.ShowActivity}"
            AbsoluteLayout.LayoutBounds="0,0,1,1"
            AbsoluteLayout.LayoutFlags="All" />
 
@@ -370,19 +370,19 @@
            BackgroundColor="White"
            Padding="10"
            BorderColor="#0a2961"
-           IsVisible="{Binding ErrorService.ShowActivity}">
+           IsVisible="{Binding ErrorServices.ShowActivity}">
             <Grid>
-                <ActivityIndicator IsRunning="{Binding ErrorService.ActivityIndicator}"
+                <ActivityIndicator IsRunning="{Binding ErrorServices.ActivityIndicator}"
                                WidthRequest="50"
                                Color="#0a2961"
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
-                               IsVisible="{Binding ErrorService.ActivityIndicator}" />
+                               IsVisible="{Binding ErrorServices.ActivityIndicator}" />
 
                 <Grid RowDefinitions="*,*,*"
-                  IsVisible="{Binding ErrorService.MessageVisible}">
+                  IsVisible="{Binding ErrorServices.MessageVisible}">
                     <VerticalStackLayout Spacing="7">
-                        <Label Text="{Binding ErrorService.Title}"
+                        <Label Text="{Binding ErrorServices.Title}"
                            FontSize="Large"
                            TextColor="Black" />
                         <Rectangle HeightRequest="2"
@@ -390,7 +390,7 @@
                                WidthRequest="100000"/>
                     </VerticalStackLayout>
                     <Label Grid.Row="1"
-                       Text="{Binding ErrorService.Message}"
+                       Text="{Binding ErrorServices.Message}"
                        TextColor="Black" />
                     <Button Text="OK"
                         Grid.Row="2"

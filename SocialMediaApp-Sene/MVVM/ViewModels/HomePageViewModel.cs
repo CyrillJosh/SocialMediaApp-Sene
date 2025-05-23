@@ -20,11 +20,11 @@ namespace Socialmedia.MVVM.ViewModel
 
         [ObservableProperty]
         private ObservableCollection<PostVM> posts = new ObservableCollection<PostVM>();
-
+        
         [ObservableProperty]
         private ErrorService errorService;
 
-        private List<User> _allUsers;
+        private List<User> _allUsers = new();
 
         [ObservableProperty]
         private User currentUser;
@@ -50,6 +50,7 @@ namespace Socialmedia.MVVM.ViewModel
         //Load Posts
         public async Task LoadPosts()
         {
+            //clear
             Posts.Clear();
             var postResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Posts"); //Cy
             var userResponse = await _client.GetAsync("https://6819ae131ac115563505b710.mockapi.io/Users"); //Cy
@@ -76,6 +77,8 @@ namespace Socialmedia.MVVM.ViewModel
                 //Sort by date
                 Posts.ToList().OrderByDescending(x => x.Post.DateCreated).ToObservableCollection();
             }
+            else
+                ErrorService.DisplayMessage("Error", "Please enter your username and password.");
         }
 
         //Delete Post

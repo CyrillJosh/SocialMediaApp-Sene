@@ -148,7 +148,7 @@
             <Frame
                 BackgroundColor="Black"
                 Opacity=".35"
-                IsVisible="{Binding ErrorService.ShowActivity}">
+                IsVisible="{Binding ErrorServices.ShowActivity}">
             </Frame>
             <Frame
                 BackgroundColor="White"
@@ -157,12 +157,12 @@
                 WidthRequest="250"
                 HeightRequest="200"
                 Opacity="50"
-                IsVisible="{Binding ErrorService.ShowActivity}">
+                IsVisible="{Binding ErrorServices.ShowActivity}">
                 <Grid>
                     <ActivityIndicator 
                         WidthRequest="50"
                         Color="#0a2961"
-                        IsRunning="{Binding ErrorService.ActivityIndicator}"/>
+                        IsRunning="{Binding ErrorServices.ActivityIndicator}"/>
                     <Grid
                         RowDefinitions="*,*,*">
                         <VerticalStackLayout
@@ -172,21 +172,21 @@
                                 VerticalOptions="Start"
                                 HorizontalOptions="Start"
                                 TextColor="Black"
-                                IsVisible="{Binding ErrorService.MessageVisible}"
-                                Text="{Binding ErrorService.Title}"/>
+                                IsVisible="{Binding ErrorServices.MessageVisible}"
+                                Text="{Binding ErrorServices.Title}"/>
                             <Rectangle
                                 HeightRequest="2"
                                 BackgroundColor="Gray"
-                                IsVisible="{Binding ErrorService.MessageVisible}"
+                                IsVisible="{Binding ErrorServices.MessageVisible}"
                                 WidthRequest="100000"/>
                         </VerticalStackLayout>
                         <Label
                             Grid.Row="1"
                             TextColor="Black"
-                            IsVisible="{Binding ErrorService.MessageVisible}"
-                            Text="{Binding ErrorService.Message}"/>
+                            IsVisible="{Binding ErrorServices.MessageVisible}"
+                            Text="{Binding ErrorServices.Message}"/>
                         <Button
-                            IsVisible="{Binding ErrorService.ButtonVisible}"
+                            IsVisible="{Binding ErrorServices.ButtonVisible}"
                             Grid.Row="2"
                             VerticalOptions="End"
                             CornerRadius="50"

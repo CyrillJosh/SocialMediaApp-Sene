@@ -13,7 +13,6 @@ namespace SocialMediaApp_Sene.MVVM.ViewModels
         //Fields
         public User User { get; set; }
         public Post Post { get; set; }
-
         public bool IsEditable { get; set; }
     }
 }
